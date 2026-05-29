@@ -1,0 +1,124 @@
+'use server'
+
+import iconv from 'iconv-lite'
+import Papa from 'papaparse'
+import { createAdminClient } from '@/lib/supabase/admin'
+
+const UNPUBLISHED_STATUSES = ['終了', '充足']
+
+type ParsedJob = {
+  title: string
+  company_name: string
+  description: string | null
+  salary_min: number | null
+  salary_max: number | null
+  employment_type: string | null
+  experience: string | null
+  areas: string[]
+  tags: string[]
+  is_published: boolean
+}
+
+type ParseResult =
+  | { success: false; error: string }
+  | { success: true; preview: ParsedJob[]; total: number; encoded: string }
+
+type ImportResult =
+  | { success: false; error: string }
+  | { success: true; inserted: number; skipped: number }
+
+function parseRow(row: Record<string, string>): ParsedJob | null {
+  const title = row['求人名【法人名×職種】']?.trim()
+  const company = row['法人名']?.trim()
+  if (!title || !company) return null
+
+  const salaryMinRaw = parseInt(row['年収（下限）'] ?? '', 10)
+  const salaryMaxRaw = parseInt(row['年収（上限）'] ?? '', 10)
+
+  const areas = Object.keys(row)
+    .filter((k) => k.startsWith('★配属先エリア[') && row[k] === '1')
+    .map((k) => k.match(/\[(.+?)\]/)?.[1] ?? '')
+    .filter(Boolean)
+
+  const jobType = row['★職種']?.trim()
+  const status = row['★ステータス']?.trim() ?? ''
+
+  return {
+    title,
+    company_name: company,
+    description: row['具体的な業務内容']?.trim() || null,
+    salary_min: isNaN(salaryMinRaw) ? null : salaryMinRaw * 10000,
+    salary_max: isNaN(salaryMaxRaw) ? null : salaryMaxRaw * 10000,
+    employment_type: null,
+    experience: row['最低限明示しなければならない労働条件12　※詳細は求人票参照（不明点は先方に確認）']?.trim() || null,
+    areas,
+    tags: jobType ? [jobType] : [],
+    is_published: !UNPUBLISHED_STATUSES.includes(status),
+  }
+}
+
+export async function parseCSV(
+  _prev: ParseResult | null,
+  formData: FormData
+): Promise<ParseResult> {
+  const file = formData.get('file') as File | null
+  if (!file || file.size === 0) {
+    return { success: false, error: 'CSVファイルを選択してください。' }
+  }
+
+  try {
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    const text = iconv.decode(buffer, 'cp932')
+
+    const { data } = Papa.parse<Record<string, string>>(text, {
+      header: true,
+      skipEmptyLines: true,
+    })
+
+    const jobs = data.map(parseRow).filter((j): j is ParsedJob => j !== null)
+    if (jobs.length === 0) {
+      return { success: false, error: '有効な求人データが見つかりませんでした。' }
+    }
+
+    const encoded = Buffer.from(JSON.stringify(jobs)).toString('base64')
+    return { success: true, preview: jobs.slice(0, 10), total: jobs.length, encoded }
+  } catch {
+    return { success: false, error: 'ファイルの解析に失敗しました。CP932形式のCSVか確認してください。' }
+  }
+}
+
+export async function importJobs(
+  _prev: ImportResult | null,
+  formData: FormData
+): Promise<ImportResult> {
+  const encoded = formData.get('encoded') as string | null
+  if (!encoded) return { success: false, error: 'データが見つかりません。再度アップロードしてください。' }
+
+  try {
+    const jobs: ParsedJob[] = JSON.parse(Buffer.from(encoded, 'base64').toString())
+    const supabase = createAdminClient()
+
+    // Upsert in batches of 100
+    let inserted = 0
+    let skipped = 0
+    const batchSize = 100
+
+    for (let i = 0; i < jobs.length; i += batchSize) {
+      const batch = jobs.slice(i, i + batchSize)
+      const { error, count } = await supabase
+        .from('jobs')
+        .insert(batch, { count: 'exact' })
+
+      if (error) {
+        skipped += batch.length
+      } else {
+        inserted += count ?? batch.length
+      }
+    }
+
+    return { success: true, inserted, skipped }
+  } catch {
+    return { success: false, error: 'インポートに失敗しました。' }
+  }
+}
