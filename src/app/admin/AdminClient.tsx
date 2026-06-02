@@ -98,16 +98,33 @@ export default function AdminClient() {
             <p className="mb-3 text-sm text-[var(--color-cic-red)]">{importResult.error}</p>
           )}
 
-          <form action={importAction} className="flex items-center gap-4">
+          <form action={importAction} className="space-y-3">
             <input type="hidden" name="encoded" value={preview.encoded} />
-            <button
-              type="submit"
-              disabled={importPending}
-              className="px-6 py-2.5 bg-[var(--color-cic-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors disabled:opacity-60"
-            >
-              {importPending ? 'インポート中...' : `${preview.total}件をインポートする`}
-            </button>
-            <p className="text-xs text-gray-400">この操作は取り消せません</p>
+
+            <label className="flex items-start gap-2.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                name="clear_first"
+                value="true"
+                defaultChecked
+                className="mt-0.5 accent-[var(--color-cic-red)]"
+              />
+              <span className="text-xs text-gray-600 leading-relaxed">
+                <span className="font-bold">既存の求人をすべて削除してからインポート</span>
+                <span className="block text-gray-400 mt-0.5">週次更新時はONを推奨。OFFにすると既存データに追加されます。</span>
+              </span>
+            </label>
+
+            <div className="flex items-center gap-4">
+              <button
+                type="submit"
+                disabled={importPending}
+                className="px-6 py-2.5 bg-[var(--color-cic-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors disabled:opacity-60"
+              >
+                {importPending ? 'インポート中...' : `${preview.total}件をインポートする`}
+              </button>
+              <p className="text-xs text-gray-400">この操作は取り消せません</p>
+            </div>
           </form>
         </section>
       )}

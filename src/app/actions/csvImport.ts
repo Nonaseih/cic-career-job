@@ -93,13 +93,17 @@ export async function importJobs(
   formData: FormData
 ): Promise<ImportResult> {
   const encoded = formData.get('encoded') as string | null
+  const clearFirst = formData.get('clear_first') === 'true'
   if (!encoded) return { success: false, error: 'データが見つかりません。再度アップロードしてください。' }
 
   try {
     const jobs: ParsedJob[] = JSON.parse(Buffer.from(encoded, 'base64').toString())
     const supabase = createAdminClient()
 
-    // Upsert in batches of 100
+    if (clearFirst) {
+      await supabase.from('jobs').delete().neq('id', 0)
+    }
+
     let inserted = 0
     let skipped = 0
     const batchSize = 100
