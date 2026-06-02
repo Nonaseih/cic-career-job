@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { FadeUp, FadeInView, StaggerList, StaggerItem } from '@/components/Animate'
 
 export const metadata: Metadata = { title: 'プライバシーポリシー' }
 
@@ -40,20 +41,26 @@ const SECTIONS = [
 export default function PrivacyPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-lg font-bold text-[var(--color-cic-brown)] mb-1">プライバシーポリシー</h1>
-      <p className="text-xs text-gray-400 mb-8">最終更新日: 2026年5月29日</p>
+      <FadeUp>
+        <h1 className="text-lg font-bold text-[var(--color-cic-brown)] mb-1">プライバシーポリシー</h1>
+        <p className="text-xs text-gray-400 mb-8">最終更新日: 2026年5月29日</p>
+      </FadeUp>
 
-      <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-6 space-y-6">
-        <p className="text-sm text-gray-600 leading-relaxed">
-          建設キャリア転職（以下「当サービス」）は、利用者の個人情報の保護を重要な責務と考え、以下のとおりプライバシーポリシーを定めます。
-        </p>
+      <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-6">
+        <FadeInView>
+          <p className="text-sm text-gray-600 leading-relaxed mb-6">
+            建設キャリア転職（以下「当サービス」）は、利用者の個人情報の保護を重要な責務と考え、以下のとおりプライバシーポリシーを定めます。
+          </p>
+        </FadeInView>
 
-        {SECTIONS.map((section) => (
-          <div key={section.title}>
-            <h2 className="text-sm font-bold text-[var(--color-cic-brown)] mb-2">{section.title}</h2>
-            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{section.body}</p>
-          </div>
-        ))}
+        <StaggerList className="space-y-6" stagger={0.06}>
+          {SECTIONS.map((section) => (
+            <StaggerItem key={section.title}>
+              <h2 className="text-sm font-bold text-[var(--color-cic-brown)] mb-2">{section.title}</h2>
+              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{section.body}</p>
+            </StaggerItem>
+          ))}
+        </StaggerList>
       </div>
     </div>
   )
