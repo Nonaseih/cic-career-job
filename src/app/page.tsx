@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import JobCard from '@/components/JobCard'
-import { FadeUp, FadeInView, StaggerList, StaggerItem } from '@/components/Animate'
+import { FadeUp, FadeInView, StaggerList, StaggerItem, HoverCard, MotionLink } from '@/components/Animate'
 import type { Job } from '@/lib/types'
 
 export default async function TopPage() {
@@ -42,18 +42,18 @@ export default async function TopPage() {
           </FadeUp>
           <FadeUp delay={0.35}>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <Link
+              <MotionLink
                 href="/register"
                 className="inline-block text-center px-6 py-3 bg-white text-[var(--color-cic-red)] font-bold rounded hover:bg-[var(--color-cic-cream)] transition-colors text-sm"
               >
                 無料会員登録
-              </Link>
-              <Link
+              </MotionLink>
+              <MotionLink
                 href="/jobs"
                 className="inline-block text-center px-6 py-3 border border-white text-white font-bold rounded hover:bg-white/10 transition-colors text-sm"
               >
                 求人を探す
-              </Link>
+              </MotionLink>
             </div>
           </FadeUp>
         </div>
@@ -84,11 +84,13 @@ export default async function TopPage() {
             { num: '03', title: '入社後フォローあり', body: '入社後3ヶ月まで定期的にフォロー。ミスマッチを防ぎます。' },
           ].map((item) => (
             <StaggerItem key={item.num}>
-              <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-4">
-                <span className="text-2xl font-black text-[var(--color-cic-red)]/20">{item.num}</span>
-                <p className="mt-1 font-bold text-sm">{item.title}</p>
-                <p className="mt-1 text-xs text-gray-500 leading-relaxed">{item.body}</p>
-              </div>
+              <HoverCard>
+                <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-4">
+                  <span className="text-2xl font-black text-[var(--color-cic-red)]/20">{item.num}</span>
+                  <p className="mt-1 font-bold text-sm">{item.title}</p>
+                  <p className="mt-1 text-xs text-gray-500 leading-relaxed">{item.body}</p>
+                </div>
+              </HoverCard>
             </StaggerItem>
           ))}
         </StaggerList>
@@ -139,12 +141,12 @@ export default async function TopPage() {
           <div className="max-w-5xl mx-auto px-4 py-10 text-center">
             <p className="text-sm text-[var(--color-cic-brown)]">まずは無料で登録して、</p>
             <p className="mt-1 text-lg font-bold">キャリアアドバイザーに相談してみる</p>
-            <Link
+            <MotionLink
               href="/register"
               className="mt-4 inline-block px-8 py-3 bg-[var(--color-cic-red)] text-white font-bold rounded hover:bg-[var(--color-cic-red-dark)] transition-colors text-sm"
             >
               無料会員登録（1分で完了）
-            </Link>
+            </MotionLink>
           </div>
         </FadeInView>
       </section>

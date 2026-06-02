@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { logout } from '@/app/actions/auth'
-import { FadeUp, FadeInView, StaggerList, StaggerItem } from '@/components/Animate'
+import { FadeUp, FadeInView, StaggerList, StaggerItem, HoverCard } from '@/components/Animate'
 
 export const metadata: Metadata = { title: 'マイページ' }
 
@@ -141,6 +141,7 @@ export default async function MyPage({
                 const job = Array.isArray(jobRow) ? jobRow[0] ?? null : jobRow
                 return (
                   <StaggerItem key={inq.id}>
+                    <HoverCard>
                     <div className="border border-[var(--color-cic-border)] rounded-lg p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
@@ -169,6 +170,7 @@ export default async function MyPage({
                         </span>
                       </div>
                     </div>
+                    </HoverCard>
                   </StaggerItem>
                 )
               })}

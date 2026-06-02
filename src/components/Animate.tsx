@@ -1,6 +1,9 @@
 'use client'
 
 import { motion, type Variants } from 'framer-motion'
+import Link from 'next/link'
+
+const MotionNextLink = motion(Link)
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 22 },
@@ -81,5 +84,41 @@ export function StaggerItem({ children, className }: Omit<BaseProps, 'delay'>) {
     >
       {children}
     </motion.div>
+  )
+}
+
+/** Lifts a card on hover — wrap any card-shaped element. */
+export function HoverCard({ children, className }: Omit<BaseProps, 'delay'>) {
+  return (
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+/** Animated CTA link — scales up on hover, springs back on tap. */
+export function MotionLink({
+  href,
+  children,
+  className,
+}: {
+  href: string
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <MotionNextLink
+      href={href}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+      className={className}
+    >
+      {children}
+    </MotionNextLink>
   )
 }
