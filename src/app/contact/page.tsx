@@ -1,13 +1,17 @@
 import type { Metadata } from 'next'
+import { FadeUp } from '@/components/Animate'
 
 export const metadata: Metadata = { title: 'お問い合わせ' }
 
 export default function ContactPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-lg font-bold text-[var(--color-cic-brown)] mb-1">お問い合わせ</h1>
-      <p className="text-xs text-gray-400 mb-8">サービスに関するご質問・ご意見はこちらからお送りください。</p>
+      <FadeUp>
+        <h1 className="text-lg font-bold text-[var(--color-cic-brown)] mb-1">お問い合わせ</h1>
+        <p className="text-xs text-gray-400 mb-8">サービスに関するご質問・ご意見はこちらからお送りください。</p>
+      </FadeUp>
 
+      <FadeUp delay={0.1}>
       <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-6">
         <form
           action="https://formsubmit.co/fortunestephen720@gmail.com"
@@ -80,6 +84,7 @@ export default function ContactPage() {
           </button>
         </form>
       </div>
+      </FadeUp>
     </div>
   )
 }
