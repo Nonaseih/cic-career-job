@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { FadeUp, FadeInView } from '@/components/Animate'
 
 export const metadata: Metadata = { title: '操作マニュアル' }
 
@@ -56,34 +57,39 @@ export default function ManualPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Header */}
-      <div className="mb-6">
-        <Link href="/admin" className="text-xs text-[var(--color-cic-red)] hover:underline">
-          ← 管理画面へ戻る
-        </Link>
-        <h1 className="mt-2 text-lg font-bold text-[var(--color-cic-brown)]">操作マニュアル</h1>
-        <p className="text-xs text-gray-400 mt-1">建設キャリア転職 — キャリアアドバイザー向け</p>
-      </div>
+      <FadeUp>
+        <div className="mb-6">
+          <Link href="/admin" className="text-xs text-[var(--color-cic-red)] hover:underline">
+            ← 管理画面へ戻る
+          </Link>
+          <h1 className="mt-2 text-lg font-bold text-[var(--color-cic-brown)]">操作マニュアル</h1>
+          <p className="text-xs text-gray-400 mt-1">建設キャリア転職 — キャリアアドバイザー向け</p>
+        </div>
+      </FadeUp>
 
       {/* TOC */}
-      <nav className="bg-white border border-[var(--color-cic-border)] rounded-lg p-4 mb-6">
-        <p className="text-xs font-bold text-[var(--color-cic-brown)] mb-2">目次</p>
-        <ul className="space-y-1">
-          {TOC.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className="text-sm text-[var(--color-cic-red)] hover:underline"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <FadeUp delay={0.1}>
+        <nav className="bg-white border border-[var(--color-cic-border)] rounded-lg p-4 mb-6">
+          <p className="text-xs font-bold text-[var(--color-cic-brown)] mb-2">目次</p>
+          <ul className="space-y-1">
+            {TOC.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className="text-sm text-[var(--color-cic-red)] hover:underline"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </FadeUp>
 
       <div className="space-y-5">
 
         {/* 1. Login */}
+        <FadeInView>
         <Section id="login" title="1. ログイン方法">
           <Step n={1} title="サイトにアクセスする">
             ブラウザで <span className="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded">https://cic-career-job.vercel.app</span> を開きます。
@@ -99,8 +105,10 @@ export default function ManualPage() {
           </Step>
           <Tip>管理画面（求人インポート）へは <span className="font-mono text-xs bg-blue-100 px-1 rounded">/admin</span> と入力するか、URLの末尾に <span className="font-mono text-xs bg-blue-100 px-1 rounded">/admin</span> を追加してください。</Tip>
         </Section>
+        </FadeInView>
 
         {/* 2. CSV Import */}
+        <FadeInView>
         <Section id="import" title="2. 求人データのインポート（週次更新）">
           <p className="text-sm text-gray-600 mb-4">kintoneのデータをエクスポートしてサイトに反映する手順です。週1〜2回を目安に実施してください。</p>
 
@@ -138,8 +146,10 @@ export default function ManualPage() {
           </Note>
           <Tip>インポート完了後、求人一覧ページ（/jobs）を開いて更新されているか確認することをおすすめします。</Tip>
         </Section>
+        </FadeInView>
 
         {/* 3. Inquiries */}
+        <FadeInView>
         <Section id="inquiry" title="3. お問い合わせ通知の確認">
           <p className="text-sm text-gray-600 mb-4">
             会員が求人詳細ページの「詳細を聞きたい・応募する」ボタンから問い合わせを送信すると、自動的にCAのメールアドレスへ通知が届きます。
@@ -164,8 +174,10 @@ export default function ManualPage() {
           </Step>
           <Note>通知メールが届かない場合は、迷惑メールフォルダをご確認ください。</Note>
         </Section>
+        </FadeInView>
 
         {/* 4. Member view */}
+        <FadeInView>
         <Section id="member-view" title="4. 会員が見ている画面の概要">
           <p className="text-sm text-gray-600 mb-4">会員（求職者）がサイトでできることの概要です。案内・サポート時の参考にしてください。</p>
 
@@ -208,8 +220,10 @@ export default function ManualPage() {
             ))}
           </div>
         </Section>
+        </FadeInView>
 
         {/* 5. FAQ */}
+        <FadeInView>
         <Section id="troubleshoot" title="5. よくある質問">
           <div className="space-y-4">
             {[
@@ -241,6 +255,7 @@ export default function ManualPage() {
             ))}
           </div>
         </Section>
+        </FadeInView>
 
       </div>
 
