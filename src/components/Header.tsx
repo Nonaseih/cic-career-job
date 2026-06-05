@@ -12,13 +12,8 @@ export default async function Header() {
       <div className="max-w-7xl mx-auto px-8 h-[68px] flex items-center justify-between">
 
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          <div className="bg-[var(--color-red)] rounded-md px-2 py-1">
-            <Image src="/ca-logo.png" alt="建設キャリア転職" width={88} height={24} className="h-6 w-auto" priority />
-          </div>
-          <span className="hidden md:block font-display font-bold text-white text-sm tracking-tight drop-shadow-sm">
-            建設キャリア転職
-          </span>
+        <Link href="/" className="flex items-center shrink-0">
+          <Image src="/ca-logo.png" alt="建設キャリア転職" width={120} height={36} className="h-9 w-auto" priority />
         </Link>
 
         {/* Floating pill nav */}
