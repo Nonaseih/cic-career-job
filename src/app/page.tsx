@@ -62,22 +62,34 @@ export default async function TopPage() {
   return (
     <div className="bg-[var(--color-bg)]">
 
-      {/* ── HERO — full-bleed dark photo ──────────────────────────────── */}
-      <section className="relative min-h-[92vh] flex flex-col justify-end overflow-hidden">
-        <Image
-          src="/staff/ca-staff-4.jpg"
-          alt="建設キャリアアドバイザー"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        {/* Multi-layer overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0f0c08] via-[#0f0c08]/60 to-[#0f0c08]/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0f0c08]/70 to-transparent" />
+      {/* ── HERO — diagonal slash split ───────────────────────────────── */}
+      {/* Pulls up by header height so it sits behind the transparent nav */}
+      <section className="relative -mt-[68px] min-h-screen flex items-center overflow-hidden">
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-8 pb-20 w-full">
-          <div className="max-w-2xl">
+        {/* LEFT: solid dark panel */}
+        <div className="absolute inset-y-0 left-0 w-[58%] bg-[var(--color-bg-dark)]" />
+
+        {/* RIGHT: photo with diagonal left edge */}
+        <div
+          className="absolute inset-y-0 right-0 w-[55%]"
+          style={{ clipPath: 'polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
+        >
+          <Image
+            src="/staff/ca-staff-4.jpg"
+            alt="キャリアアドバイザー"
+            fill
+            className="object-cover object-top"
+            priority
+          />
+          {/* Fade the left edge of the photo into the dark panel */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0f0c08] via-[#0f0c08]/20 to-transparent" />
+          {/* Subtle top/bottom fade */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0c08]/30 via-transparent to-[#0f0c08]/50" />
+        </div>
+
+        {/* CONTENT — left-center, overlapping the slash */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-8 py-32">
+          <div className="max-w-[56%]">
             <FadeUp>
               <p className="flex items-center gap-2 text-xs font-latin tracking-[.2em] uppercase text-white/50 mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-red)] inline-block" />
@@ -86,18 +98,18 @@ export default async function TopPage() {
             </FadeUp>
 
             <FadeUp delay={0.1}>
-              <h1 className="leading-[1.1] mb-6">
-                <span className="block font-display font-black text-[clamp(2.8rem,6vw,5rem)] text-white">
+              <h1 className="leading-[1.08] mb-6">
+                <span className="block font-display font-black text-[clamp(2.8rem,5.5vw,5rem)] text-white">
                   あなたの経験を、
                 </span>
-                <em className="block font-serif text-[clamp(2.8rem,6vw,5rem)] text-white/90 not-italic" style={{ fontStyle: 'italic' }}>
+                <em className="block font-serif text-[clamp(2.8rem,5.5vw,5rem)] text-white/85" style={{ fontStyle: 'italic' }}>
                   次の現場へ。
                 </em>
               </h1>
             </FadeUp>
 
             <FadeUp delay={0.2}>
-              <p className="text-white/65 text-base leading-relaxed max-w-lg mb-10">
+              <p className="text-white/60 text-base leading-relaxed max-w-md mb-10">
                 施工管理技士・建設技術者に特化した転職支援サービス。
                 専任のキャリアアドバイザーが求人紹介から入社後まで、完全無料でサポートします。
               </p>
@@ -119,9 +131,9 @@ export default async function TopPage() {
             </FadeUp>
           </div>
 
-          {/* Trust stats — bottom strip */}
+          {/* Trust stats */}
           <FadeUp delay={0.38}>
-            <div className="mt-16 flex items-center gap-8 sm:gap-12 flex-wrap">
+            <div className="mt-20 flex items-center gap-8 sm:gap-12 flex-wrap">
               {[
                 { value: count?.toLocaleString() ?? '0', unit: '件', label: '掲載求人数' },
                 { value: '98', unit: '%', label: 'サポート満足度' },

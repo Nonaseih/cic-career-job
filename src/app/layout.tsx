@@ -22,7 +22,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ja" className={`h-full ${noto.variable} ${zen.variable} ${mincho.variable} ${archivo.variable}`}>
       <body className="min-h-full flex flex-col bg-[var(--color-background)]">
         <Header />
-        <main className="flex-1">{children}</main>
+        {/* pt-[68px] offsets the fixed header for inner pages; the hero overrides with -mt-[68px] */}
+        <main className="flex-1 pt-[68px]">{children}</main>
         <Footer />
       </body>
     </html>
