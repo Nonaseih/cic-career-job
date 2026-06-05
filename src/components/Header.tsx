@@ -24,7 +24,7 @@ export default async function Header() {
             src="/ca-logo-red.png"
             alt="建設キャリア転職"
             width={1390} height={300}
-            className="h-11 w-auto hidden group-data-[scrolled=true]:block"
+            className="h-10 w-auto hidden group-data-[scrolled=true]:block"
             priority
           />
         </Link>
