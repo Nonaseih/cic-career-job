@@ -16,31 +16,45 @@ export default async function Header() {
           <Image src="/ca-logo.png" alt="建設キャリア転職" width={120} height={36} className="h-9 w-auto" priority />
         </Link>
 
-        {/* Floating pill nav */}
-        <nav className="hidden md:flex items-center gap-6 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-6 py-2 text-sm text-white/80">
-          <Link href="/jobs" className="hover:text-white transition-colors">求人を探す</Link>
-          <Link href="/contact" className="hover:text-white transition-colors">お問い合わせ</Link>
+        {/* Nav pill — frosted on transparent, plain on solid */}
+        <nav className={[
+          'hidden md:flex items-center gap-6 rounded-full px-6 py-2 text-sm transition-all duration-300',
+          'bg-white/15 backdrop-blur-sm border border-white/20 text-white/80',
+          'group-data-[scrolled=true]:bg-transparent group-data-[scrolled=true]:backdrop-blur-none',
+          'group-data-[scrolled=true]:border-transparent group-data-[scrolled=true]:text-[var(--color-dark)]/70',
+        ].join(' ')}>
+          <Link href="/jobs"
+            className="hover:text-white group-data-[scrolled=true]:hover:text-[var(--color-dark)] transition-colors">
+            求人を探す
+          </Link>
+          <Link href="/contact"
+            className="hover:text-white group-data-[scrolled=true]:hover:text-[var(--color-dark)] transition-colors">
+            お問い合わせ
+          </Link>
           <a href="https://www.cic-ct.co.jp/career-job/" target="_blank" rel="noopener noreferrer"
-            className="hover:text-white transition-colors">採用担当者様</a>
+            className="hover:text-white group-data-[scrolled=true]:hover:text-[var(--color-dark)] transition-colors">
+            採用担当者様
+          </a>
         </nav>
 
         {/* CTAs */}
         <div className="flex items-center gap-3">
           {user ? (
             <Link href="/mypage"
-              className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors">
+              className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors group-data-[scrolled=true]:bg-[var(--color-dark)] group-data-[scrolled=true]:text-white group-data-[scrolled=true]:hover:bg-[var(--color-dark)]/85">
               マイページ
-              <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs">›</span>
+              <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs group-data-[scrolled=true]:bg-white/15">›</span>
             </Link>
           ) : (
             <>
-              <Link href="/login" className="hidden sm:block text-sm text-white/70 hover:text-white transition-colors px-3 py-2">
+              <Link href="/login"
+                className="hidden sm:block text-sm text-white/70 hover:text-white transition-colors px-3 py-2 group-data-[scrolled=true]:text-[var(--color-dark)]/60 group-data-[scrolled=true]:hover:text-[var(--color-dark)]">
                 ログイン
               </Link>
               <Link href="/register"
-                className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors">
+                className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors group-data-[scrolled=true]:bg-[var(--color-dark)] group-data-[scrolled=true]:text-white group-data-[scrolled=true]:hover:bg-[var(--color-dark)]/85">
                 無料会員登録
-                <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs">›</span>
+                <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs group-data-[scrolled=true]:bg-white/15">›</span>
               </Link>
             </>
           )}
