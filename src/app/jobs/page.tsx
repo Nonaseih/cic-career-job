@@ -75,7 +75,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
             <div className="flex-1 min-w-0">
               {jobs && jobs.length > 0 ? (
                 <>
-                  <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4" delay={0.05}>
+                  <StaggerList key={page} className="grid grid-cols-1 sm:grid-cols-2 gap-4" delay={0.05}>
                     {(jobs as Job[]).map((job) => (
                       <StaggerItem key={job.id}>
                         <JobCard job={job} />
