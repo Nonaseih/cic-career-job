@@ -315,8 +315,8 @@ export default async function TopPage() {
 
       {/* ── CTA band ──────────────────────────────────────────────────── */}
       <section
-        className="py-16 sm:py-20 px-6 sm:px-10 bg-[var(--color-navy)] text-white relative overflow-hidden"
-        style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(31,99,184,.55) 0%, transparent 70%), var(--color-navy)' }}
+        className="py-16 sm:py-20 px-6 sm:px-10 text-white relative overflow-hidden"
+        style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(200,0,10,.25) 0%, transparent 65%), #1e2832' }}
       >
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <FadeInView>

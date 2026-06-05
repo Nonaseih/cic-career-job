@@ -23,8 +23,14 @@ function formatSalary(min: number | null, max: number | null) {
   return `〜${(max! / 10000).toFixed(0)}万円`
 }
 
-const ROW = 'flex gap-3 py-3 border-b border-[var(--color-cic-border)] text-sm last:border-0'
-const LABEL = 'w-24 shrink-0 text-xs font-bold text-[var(--color-cic-brown)] pt-0.5'
+function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex gap-4 py-3.5 border-b border-[var(--color-line)] text-sm last:border-0">
+      <span className="w-24 shrink-0 text-xs font-bold text-[var(--color-ink)] pt-0.5">{label}</span>
+      <div className="flex-1 text-[var(--color-body)]">{children}</div>
+    </div>
+  )
+}
 
 export default async function JobDetailPage({ params }: Props) {
   const { id } = await params
@@ -36,116 +42,119 @@ export default async function JobDetailPage({ params }: Props) {
   ])
 
   if (!job) notFound()
-
   const j = job as Job
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
-      {/* Breadcrumb */}
-      <FadeUp>
-        <nav className="text-xs text-gray-400 mb-4 flex items-center gap-1.5">
-          <Link href="/" className="hover:text-[var(--color-cic-red)]">TOP</Link>
-          <span>›</span>
-          <Link href="/jobs" className="hover:text-[var(--color-cic-red)]">求人一覧</Link>
-          <span>›</span>
-          <span className="text-gray-600 truncate">{j.title}</span>
-        </nav>
-      </FadeUp>
+    <>
+      {/* Breadcrumb strip */}
+      <div className="bg-[var(--color-warm-100)] border-b border-[var(--color-line)]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 py-3">
+          <nav className="text-xs text-[var(--color-muted)] flex items-center gap-1.5 flex-wrap">
+            <Link href="/" className="hover:text-[var(--color-red)] transition-colors">TOP</Link>
+            <span>›</span>
+            <Link href="/jobs" className="hover:text-[var(--color-red)] transition-colors">求人一覧</Link>
+            <span>›</span>
+            <span className="text-[var(--color-body)] truncate max-w-[200px]">{j.title}</span>
+          </nav>
+        </div>
+      </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Main */}
-        <article className="flex-1 min-w-0">
-          <FadeUp delay={0.1}>
-            <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-6">
-              {j.employment_type && (
-                <span className="text-xs border border-[var(--color-cic-red)] text-[var(--color-cic-red)] rounded px-2 py-0.5">
-                  {j.employment_type}
-                </span>
-              )}
-              <h1 className="mt-2 text-xl font-bold leading-snug">{j.title}</h1>
-              <p className="mt-1 text-sm text-[var(--color-cic-brown)] font-medium">{j.company_name}</p>
+      <div className="max-w-6xl mx-auto px-6 sm:px-10 py-8">
+        <div className="flex flex-col lg:flex-row gap-6">
 
-              {j.tags && j.tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {j.tags.map((tag) => (
-                    <span key={tag} className="text-xs bg-[var(--color-cic-gray)] text-[var(--color-cic-brown)] px-2 py-0.5 rounded">
-                      {tag}
-                    </span>
-                  ))}
+          {/* Main content */}
+          <article className="flex-1 min-w-0">
+
+            {/* Title card */}
+            <FadeUp>
+              <div className="bg-white border border-[var(--color-line)] rounded-xl p-6">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    {j.employment_type && (
+                      <span className="inline-block text-xs border border-[var(--color-red)] text-[var(--color-red)] rounded-full px-2.5 py-0.5 mb-2">
+                        {j.employment_type}
+                      </span>
+                    )}
+                    <h1 className="font-display font-black text-2xl text-[var(--color-ink)] leading-snug">{j.title}</h1>
+                    <p className="mt-1.5 text-sm font-medium text-[var(--color-muted)]">{j.company_name}</p>
+                  </div>
                 </div>
-              )}
-            </div>
-          </FadeUp>
 
-          {/* Key info table */}
-          <FadeInView delay={0.05}>
-            <div className="mt-4 bg-white border border-[var(--color-cic-border)] rounded-lg px-6 py-2">
-              <div className={ROW}>
-                <span className={LABEL}>年収</span>
-                <span className="font-bold text-[var(--color-cic-red)]">{formatSalary(j.salary_min, j.salary_max)}</span>
-              </div>
-              {j.employment_type && (
-                <div className={ROW}>
-                  <span className={LABEL}>雇用形態</span>
-                  <span>{j.employment_type}</span>
-                </div>
-              )}
-              {j.areas && j.areas.length > 0 && (
-                <div className={ROW}>
-                  <span className={LABEL}>勤務地</span>
-                  <span className="flex flex-wrap gap-1">
-                    {j.areas.map((area) => (
-                      <span key={area} className="bg-[var(--color-cic-gray)] px-2 py-0.5 rounded text-xs">{area}</span>
+                {j.tags && j.tags.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {j.tags.map((tag) => (
+                      <span key={tag} className="text-xs bg-[var(--color-warm-100)] text-[var(--color-ink)] border border-[var(--color-line)] px-3 py-1 rounded-full">
+                        {tag}
+                      </span>
                     ))}
-                  </span>
-                </div>
-              )}
-              {j.experience && (
-                <div className={ROW}>
-                  <span className={LABEL}>応募資格</span>
-                  <span className="leading-relaxed whitespace-pre-wrap">{j.experience}</span>
-                </div>
-              )}
-            </div>
-          </FadeInView>
+                  </div>
+                )}
+              </div>
+            </FadeUp>
 
-          {/* Description */}
-          {j.description && (
-            <FadeInView delay={0.05}>
-              <div className="mt-4 bg-white border border-[var(--color-cic-border)] rounded-lg p-6">
-                <h2 className="text-sm font-bold text-[var(--color-cic-brown)] mb-3">仕事内容</h2>
-                <p className="text-sm leading-relaxed whitespace-pre-wrap text-gray-700">{j.description}</p>
+            {/* Key info */}
+            <FadeInView>
+              <div className="mt-4 bg-white border border-[var(--color-line)] rounded-xl px-6 py-1">
+                <InfoRow label="想定年収">
+                  <span className="font-latin font-extrabold text-xl text-[var(--color-red)]">
+                    {formatSalary(j.salary_min, j.salary_max)}
+                  </span>
+                </InfoRow>
+                {j.employment_type && <InfoRow label="雇用形態">{j.employment_type}</InfoRow>}
+                {j.areas && j.areas.length > 0 && (
+                  <InfoRow label="勤務地">
+                    <div className="flex flex-wrap gap-1.5">
+                      {j.areas.map((area) => (
+                        <span key={area} className="bg-[var(--color-warm-100)] border border-[var(--color-line)] text-[var(--color-ink)] px-2.5 py-0.5 rounded-full text-xs">
+                          {area}
+                        </span>
+                      ))}
+                    </div>
+                  </InfoRow>
+                )}
+                {j.experience && (
+                  <InfoRow label="応募資格">
+                    <p className="leading-relaxed whitespace-pre-wrap text-sm">{j.experience}</p>
+                  </InfoRow>
+                )}
               </div>
             </FadeInView>
-          )}
 
-          {/* Mobile CTA */}
-          <FadeInView className="mt-4 lg:hidden">
-            <InquiryModal
-              jobId={j.id}
-              jobTitle={j.title}
-              userEmail={user?.email ?? ''}
-            />
-          </FadeInView>
-        </article>
+            {/* Description */}
+            {j.description && (
+              <FadeInView>
+                <div className="mt-4 bg-white border border-[var(--color-line)] rounded-xl p-6">
+                  <h2 className="font-display font-bold text-[var(--color-ink)] mb-4 flex items-center gap-2">
+                    <span className="inline-block w-1 h-5 bg-[var(--color-red)] rounded-full" />
+                    仕事内容
+                  </h2>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap text-[var(--color-body)]">{j.description}</p>
+                </div>
+              </FadeInView>
+            )}
 
-        {/* Sidebar CTA — desktop */}
-        <FadeUp delay={0.2} className="hidden lg:block w-64 shrink-0">
-          <aside>
-            <div className="bg-white border border-[var(--color-cic-border)] rounded-lg p-5 sticky top-20">
-              <p className="text-xs text-gray-500 mb-3 leading-relaxed">
-                気になる点や応募の相談は、担当のキャリアアドバイザーに直接お聞きください。
-              </p>
-              <InquiryModal
-                jobId={j.id}
-                jobTitle={j.title}
-                userEmail={user?.email ?? ''}
-              />
-              <p className="mt-3 text-xs text-center text-gray-400">無料・秘密厳守</p>
-            </div>
-          </aside>
-        </FadeUp>
+            {/* Mobile CTA */}
+            <FadeInView className="mt-5 lg:hidden">
+              <InquiryModal jobId={j.id} jobTitle={j.title} userEmail={user?.email ?? ''} />
+            </FadeInView>
+          </article>
+
+          {/* Sidebar — desktop */}
+          <FadeUp delay={0.15} className="hidden lg:block w-64 shrink-0">
+            <aside>
+              <div className="bg-white border border-[var(--color-line)] rounded-xl p-5 sticky top-24">
+                <p className="text-xs font-bold text-[var(--color-ink)] mb-1">キャリアアドバイザーに相談</p>
+                <p className="text-xs text-[var(--color-muted)] mb-4 leading-relaxed">
+                  求人の詳細・応募についてCAに直接お聞きいただけます。
+                </p>
+                <InquiryModal jobId={j.id} jobTitle={j.title} userEmail={user?.email ?? ''} />
+                <p className="mt-3 text-xs text-center text-[var(--color-subtle)]">無料・秘密厳守</p>
+              </div>
+            </aside>
+          </FadeUp>
+
+        </div>
       </div>
-    </div>
+    </>
   )
 }

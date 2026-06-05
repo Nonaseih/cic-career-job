@@ -54,7 +54,7 @@ type Profile = {
 
 function SectionHeader({ title }: { title: string }) {
   return (
-    <h2 className="text-xs font-bold text-[var(--color-cic-brown)] bg-[var(--color-cic-gray)] px-4 py-2 rounded -mx-6 mb-4">
+    <h2 className="text-xs font-bold text-[var(--color-ink)] bg-[var(--color-warm-100)] border-l-4 border-[var(--color-red)] px-4 py-2 rounded -mx-6 mb-4">
       {title}
     </h2>
   )
@@ -63,16 +63,16 @@ function SectionHeader({ title }: { title: string }) {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-bold text-[var(--color-cic-brown)] mb-1">
+      <label className="block text-xs font-bold text-[var(--color-ink)] mb-1">
         {label}
-        {required && <span className="text-[var(--color-cic-red)] ml-1">*</span>}
+        {required && <span className="text-[var(--color-red)] ml-1">*</span>}
       </label>
       {children}
     </div>
   )
 }
 
-const INPUT = 'w-full border border-[var(--color-cic-border)] rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-cic-red)] bg-white'
+const INPUT = 'w-full border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-red)] bg-white transition-colors'
 const SELECT = INPUT
 
 export default function ProfileForm({ profile }: { profile: Profile | null }) {
@@ -83,7 +83,7 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
   return (
     <form action={action} className="bg-white border border-[var(--color-cic-border)] rounded-lg px-6 py-6 space-y-6">
       {result?.success === false && (
-        <p className="text-sm text-[var(--color-cic-red)] bg-red-50 border border-red-200 rounded px-3 py-2">
+        <p className="text-sm text-[var(--color-red)] bg-red-50 border border-red-200 rounded px-3 py-2">
           {result.error}
         </p>
       )}
@@ -222,7 +222,7 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full py-3 bg-[var(--color-cic-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors disabled:opacity-60"
+        className="w-full py-3 bg-[var(--color-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors disabled:opacity-60"
       >
         {pending ? '保存中...' : 'プロフィールを保存する'}
       </button>
