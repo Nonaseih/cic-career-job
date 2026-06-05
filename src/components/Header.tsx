@@ -13,7 +13,7 @@ export default async function Header() {
 
         {/* Brand */}
         <Link href="/" className="flex items-center shrink-0">
-          <Image src="/ca-logo.png" alt="建設キャリア転職" width={1272} height={225} className="h-12 w-auto" priority />
+          <Image src="/ca-logo.png" alt="建設キャリア転職" width={1272} height={225} className="h-10 w-auto" priority />
         </Link>
 
         {/* Nav pill — frosted on transparent, plain on solid */}
