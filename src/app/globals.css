@@ -2,17 +2,48 @@
 
 @theme inline {
   --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
+  --color-foreground: #1c2530;
 
-  --color-cic-red: #c8000a;
+  /* ---- navy: primary ---- */
+  --color-navy-900: #071c3a;
+  --color-navy:     #0c2c5a;
+  --color-navy-700: #15396f;
+  --color-navy-600: #1c4685;
+
+  /* ---- blue: links / secondary actions ---- */
+  --color-blue:     #1f63b8;
+  --color-blue-600: #1a589f;
+  --color-blue-300: #6f9fd8;
+
+  /* ---- sky: surfaces, pills, tags ---- */
+  --color-sky-50:  #eff4fb;
+  --color-sky-100: #e2ecf8;
+  --color-sky-200: #cddff3;
+
+  /* ---- red: accent ---- */
+  --color-cic-red:      #c8000a;
   --color-cic-red-dark: #a00008;
-  --color-cic-brown: #5c3317;
-  --color-cic-brown-light: #7a4a2a;
-  --color-cic-cream: #fff8f5;
-  --color-cic-gray: #f5f5f5;
-  --color-cic-border: #e0d8d4;
 
-  --font-sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  /* ---- warm neutrals ---- */
+  --color-cic-cream: #fbf7f3;
+  --color-sand:      #f3ede6;
+
+  /* ---- text / lines ---- */
+  --color-slate: #485568;
+  --color-muted: #7b8798;
+  --color-line:  #e4e9f1;
+
+  /* ---- legacy aliases — keep until full migration ---- */
+  --color-cic-brown:       #0c2c5a;
+  --color-cic-brown-light: #15396f;
+  --color-cic-gray:        #eff4fb;
+  --color-cic-border:      #e4e9f1;
+
+  /* ---- fonts ---- */
+  --font-sans:    var(--font-noto), "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  --font-display: var(--font-zen), "Noto Sans JP", sans-serif;
+  --font-serif:   var(--font-mincho), serif;
+  --font-latin:   var(--font-archivo), "Noto Sans JP", sans-serif;
 }
 
 body {

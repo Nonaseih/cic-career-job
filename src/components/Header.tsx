@@ -7,10 +7,12 @@ export default async function Header() {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <header className="bg-white border-b border-[var(--color-cic-border)] sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="bg-[var(--color-cic-red)] rounded px-2 py-1">
+    <header className="bg-white border-b border-[var(--color-line)] sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-6 sm:px-10 h-[76px] flex items-center justify-between">
+
+        {/* Brand */}
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <div className="bg-[var(--color-cic-red)] rounded-lg px-2.5 py-1.5">
             <Image
               src="/ca-logo.png"
               alt="建設キャリア転職"
@@ -20,19 +22,24 @@ export default async function Header() {
               priority
             />
           </div>
+          <span className="hidden sm:block font-display font-bold text-[var(--color-navy)] text-sm leading-tight">
+            建設キャリア転職
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-1 text-sm">
+        {/* Nav */}
+        <nav className="flex items-center gap-2 text-sm">
           <Link
             href="/jobs"
-            className="px-3 py-1.5 text-[var(--color-cic-brown)] hover:text-[var(--color-cic-red)] font-medium transition-colors"
+            className="hidden sm:block px-3 py-1.5 text-[var(--color-slate)] hover:text-[var(--color-blue)] font-medium transition-colors"
           >
             求人を探す
           </Link>
+
           {user ? (
             <Link
               href="/mypage"
-              className="ml-1 px-4 py-1.5 bg-[var(--color-cic-red)] text-white rounded text-sm font-medium hover:bg-[var(--color-cic-red-dark)] transition-colors"
+              className="px-4 py-2 bg-[var(--color-cic-red)] text-white font-display font-bold rounded-lg text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors whitespace-nowrap"
             >
               マイページ
             </Link>
@@ -40,16 +47,24 @@ export default async function Header() {
             <>
               <Link
                 href="/login"
-                className="px-3 py-1.5 text-[var(--color-cic-brown)] hover:text-[var(--color-cic-red)] transition-colors"
+                className="hidden sm:block px-3 py-1.5 text-[var(--color-slate)] hover:text-[var(--color-blue)] transition-colors"
               >
                 ログイン
               </Link>
               <Link
                 href="/register"
-                className="ml-1 px-4 py-1.5 bg-[var(--color-cic-red)] text-white rounded text-sm font-medium hover:bg-[var(--color-cic-red-dark)] transition-colors"
+                className="px-4 py-2 bg-[var(--color-cic-red)] text-white font-display font-bold rounded-lg text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors whitespace-nowrap"
               >
                 無料会員登録
               </Link>
+              <a
+                href="https://www.cic-ct.co.jp/career-job/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden md:block px-4 py-2 border-[1.5px] border-[var(--color-sky-200)] text-[var(--color-navy)] font-display font-bold rounded-lg text-sm hover:bg-[var(--color-sky-50)] transition-colors whitespace-nowrap"
+              >
+                採用ご担当者様
+              </a>
             </>
           )}
         </nav>
