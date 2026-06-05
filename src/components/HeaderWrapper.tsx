@@ -1,16 +1,23 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function HeaderWrapper({ children }: { children: React.ReactNode }) {
-  const [scrolled, setScrolled] = useState(true)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+  const [scrolled, setScrolled] = useState(!isHome)
 
   useEffect(() => {
+    if (!isHome) {
+      setScrolled(true)
+      return
+    }
     const onScroll = () => setScrolled(window.scrollY > 72)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [isHome])
 
   return (
     <div

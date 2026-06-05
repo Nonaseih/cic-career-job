@@ -38,7 +38,7 @@ export function FadeInView({ children, className, delay = 0 }: BaseProps) {
       variants={fadeUp}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: '-60px' }}
+      viewport={{ once: false, margin: '-60px' }}
       transition={{ duration: 0.55, delay, ease: 'easeOut' }}
       className={className}
     >
@@ -60,7 +60,7 @@ export function StaggerList({ children, className, delay = 0, stagger = 0.09 }: 
     <motion.div
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: '-60px' }}
+      viewport={{ once: false, margin: '-60px' }}
       variants={{
         hidden: {},
         show: {
