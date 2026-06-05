@@ -82,6 +82,15 @@ export default function RegisterForm() {
 
       <p className="text-center text-xs text-gray-400 leading-relaxed">
         登録することで
+        <a
+          href="https://www.cic-ct.co.jp/career-job/entry/kiyaku/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--color-cic-red)] hover:underline mx-0.5"
+        >
+          利用規約
+        </a>
+        および
         <Link href="/privacy" className="text-[var(--color-cic-red)] hover:underline mx-0.5">
           プライバシーポリシー
         </Link>
