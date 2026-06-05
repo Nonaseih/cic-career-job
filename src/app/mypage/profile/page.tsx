@@ -17,7 +17,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <div className="bg-[var(--color-ink)] text-white">
+      <div className="bg-[var(--color-bg-dark)] text-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 py-10">
           <Link href="/mypage" className="text-xs text-white/50 hover:text-white/80 transition-colors inline-flex items-center gap-1 mb-3">
             ← マイページへ戻る
