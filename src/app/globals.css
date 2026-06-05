@@ -1,58 +1,62 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #faf9f7;
-  --color-foreground: #1e2832;
+  /* ── Backgrounds ── */
+  --color-bg:        #ffffff;
+  --color-bg-warm:   #f7f3ee;
+  --color-bg-dark:   #0f0c08;
 
-  /* ── Red: primary brand ── */
+  /* ── Dark tones ── */
+  --color-dark:      #141008;
+  --color-dark-2:    #2c2015;
+
+  /* ── Brand red ── */
   --color-red:       #c8000a;
   --color-red-dark:  #a00008;
-  --color-red-warm:  #ff6b5b;   /* salmon — hero highlight text */
-  --color-red-100:   #fee2e2;
-
-  /* ── Charcoal: authority / dark surfaces ── */
-  --color-ink:       #1e2832;
-  --color-ink-700:   #2d3d4f;
-  --color-ink-600:   #3d5166;
-
-  /* ── Warm surfaces ── */
-  --color-warm-50:   #faf9f7;   /* page bg */
-  --color-warm-100:  #f2efe9;   /* section bg */
-  --color-warm-200:  #e8e2d9;   /* card bg on dark surfaces */
+  --color-red-muted: #f5d0c8;
 
   /* ── Text ── */
-  --color-body:      #374151;
-  --color-muted:     #6b7280;
-  --color-subtle:    #9ca3af;
+  --color-text:      #1a1510;
+  --color-muted:     #8a7e72;
+  --color-subtle:    #b5aca3;
 
-  /* ── Lines / borders ── */
-  --color-line:      #e5e0d9;
-  --color-line-dark: #d6cfc5;
+  /* ── Lines ── */
+  --color-line:      #e5ddd4;
+  --color-line-dark: #d4cabf;
 
-  /* ── Amber: very sparse use only ── */
+  /* ── Amber (sparse) ── */
   --color-amber:     #d97706;
   --color-amber-100: #fef3c7;
 
-  /* ── Legacy aliases — keep until all pages migrated ── */
-  --color-navy:            #1e2832;
-  --color-navy-900:        #111a23;
-  --color-navy-700:        #2d3d4f;
-  --color-navy-600:        #3d5166;
-  --color-blue:            #c8000a;   /* redirect to red */
+  /* ── Legacy aliases — DO NOT author new code against these ── */
+  --color-background: #ffffff;
+  --color-foreground: #1a1510;
+  --color-navy:            #141008;
+  --color-navy-900:        #0f0c08;
+  --color-navy-700:        #2c2015;
+  --color-navy-600:        #3d2e1a;
+  --color-blue:            #c8000a;
   --color-blue-600:        #a00008;
   --color-blue-300:        #f87171;
-  --color-sky-50:          #f2efe9;
-  --color-sky-100:         #e8e2d9;
-  --color-sky-200:         #d6cfc5;
-  --color-slate:           #374151;
+  --color-sky-50:          #f7f3ee;
+  --color-sky-100:         #ede7df;
+  --color-sky-200:         #e5ddd4;
+  --color-slate:           #1a1510;
+  --color-body:            #1a1510;
+  --color-ink:             #141008;
+  --color-ink-700:         #2c2015;
+  --color-ink-600:         #3d2e1a;
+  --color-warm-50:         #f7f3ee;
+  --color-warm-100:        #ede7df;
+  --color-warm-200:        #e5ddd4;
   --color-cic-red:         #c8000a;
   --color-cic-red-dark:    #a00008;
-  --color-cic-cream:       #faf9f7;
-  --color-sand:            #f2efe9;
-  --color-cic-brown:       #1e2832;
-  --color-cic-brown-light: #2d3d4f;
-  --color-cic-gray:        #f2efe9;
-  --color-cic-border:      #e5e0d9;
+  --color-cic-cream:       #f7f3ee;
+  --color-sand:            #f7f3ee;
+  --color-cic-brown:       #141008;
+  --color-cic-brown-light: #2c2015;
+  --color-cic-gray:        #f7f3ee;
+  --color-cic-border:      #e5ddd4;
 
   /* ── Fonts ── */
   --font-sans:    var(--font-noto), "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
@@ -62,8 +66,8 @@
 }
 
 body {
-  background: var(--color-warm-50);
-  color: var(--color-foreground);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }

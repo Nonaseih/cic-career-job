@@ -4,7 +4,6 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
 const EMPLOYMENT_TYPES = ['正社員', '契約社員', '派遣社員', 'アルバイト・パート']
-
 const AREAS = [
   '北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県',
   '茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県',
@@ -15,46 +14,33 @@ const AREAS = [
   '熊本県','大分県','宮崎県','鹿児島県','沖縄県',
 ]
 
-const INPUT = 'w-full border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-[var(--color-red)] transition-colors'
+const INPUT = 'w-full border border-[var(--color-line)] rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:border-[var(--color-text)] transition-colors'
 
 export default function JobFilters({ keyword, area, employmentType }: { keyword: string; area: string; employmentType: string }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [keywordInput, setKeywordInput] = useState(keyword)
+  const [kw, setKw] = useState(keyword)
 
   const update = useCallback((key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (value) params.set(key, value)
-    else params.delete(key)
-    params.delete('page')
-    router.push(`${pathname}?${params.toString()}`)
+    const p = new URLSearchParams(searchParams.toString())
+    value ? p.set(key, value) : p.delete(key)
+    p.delete('page')
+    router.push(`${pathname}?${p.toString()}`)
   }, [router, pathname, searchParams])
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    update('q', keywordInput.trim())
-  }
-
-  const hasFilters = keyword || area || employmentType
-
   return (
-    <div className="bg-white border border-[var(--color-line)] rounded-xl p-5 space-y-5">
-      <p className="text-xs font-bold text-[var(--color-ink)] uppercase tracking-wider">絞り込み</p>
+    <div className="bg-white border border-[var(--color-line)] rounded-2xl p-6 space-y-6">
+      <p className="text-xs font-latin tracking-[.18em] uppercase text-[var(--color-muted)]">絞り込み</p>
 
       {/* Keyword */}
-      <form onSubmit={handleSearch}>
-        <label className="block text-xs font-bold text-[var(--color-body)] mb-1.5">キーワード</label>
+      <form onSubmit={(e) => { e.preventDefault(); update('q', kw.trim()) }}>
+        <label className="block text-xs font-medium text-[var(--color-text)] mb-2">キーワード</label>
         <div className="flex gap-2">
-          <input
-            type="text"
-            value={keywordInput}
-            onChange={(e) => setKeywordInput(e.target.value)}
-            placeholder="職種・会社名など"
-            className={`${INPUT} flex-1 min-w-0`}
-          />
+          <input type="text" value={kw} onChange={(e) => setKw(e.target.value)}
+            placeholder="職種・会社名など" className={`${INPUT} flex-1`} />
           <button type="submit"
-            className="shrink-0 px-3 py-2 bg-[var(--color-red)] text-white text-xs font-bold rounded-lg hover:bg-[var(--color-red-dark)] transition-colors">
+            className="shrink-0 px-4 py-2 bg-[var(--color-dark)] text-white text-xs rounded-xl hover:bg-[var(--color-dark-2)] transition-colors">
             検索
           </button>
         </div>
@@ -62,7 +48,7 @@ export default function JobFilters({ keyword, area, employmentType }: { keyword:
 
       {/* Area */}
       <div>
-        <label className="block text-xs font-bold text-[var(--color-body)] mb-1.5">勤務地</label>
+        <label className="block text-xs font-medium text-[var(--color-text)] mb-2">勤務地</label>
         <select value={area} onChange={(e) => update('area', e.target.value)} className={INPUT}>
           <option value="">すべての都道府県</option>
           {AREAS.map((a) => <option key={a} value={a}>{a}</option>)}
@@ -71,15 +57,15 @@ export default function JobFilters({ keyword, area, employmentType }: { keyword:
 
       {/* Employment type */}
       <div>
-        <label className="block text-xs font-bold text-[var(--color-body)] mb-2">雇用形態</label>
-        <div className="flex flex-wrap gap-1.5">
+        <label className="block text-xs font-medium text-[var(--color-text)] mb-2">雇用形態</label>
+        <div className="flex flex-wrap gap-2">
           {EMPLOYMENT_TYPES.map((type) => (
             <button key={type} type="button"
               onClick={() => update('type', employmentType === type ? '' : type)}
-              className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
                 employmentType === type
-                  ? 'bg-[var(--color-red)] text-white border-[var(--color-red)]'
-                  : 'border-[var(--color-line)] text-[var(--color-body)] hover:border-[var(--color-red)]'
+                  ? 'bg-[var(--color-dark)] text-white border-[var(--color-dark)]'
+                  : 'border-[var(--color-line)] text-[var(--color-muted)] hover:border-[var(--color-text)]'
               }`}>
               {type}
             </button>
@@ -87,11 +73,10 @@ export default function JobFilters({ keyword, area, employmentType }: { keyword:
         </div>
       </div>
 
-      {hasFilters && (
-        <button type="button"
-          onClick={() => { setKeywordInput(''); router.push(pathname) }}
-          className="text-xs text-[var(--color-red)] hover:underline">
-          条件をリセット ×
+      {(keyword || area || employmentType) && (
+        <button type="button" onClick={() => { setKw(''); router.push(pathname) }}
+          className="text-xs text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors underline-offset-2 hover:underline">
+          条件をリセット
         </button>
       )}
     </div>
