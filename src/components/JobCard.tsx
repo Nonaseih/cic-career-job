@@ -9,7 +9,7 @@ function formatSalary(min: number | null, max: number | null) {
   return `〜${(max! / 10000).toFixed(0)}万円`
 }
 
-export default function JobCard({ job }: { job: Job }) {
+export default function JobCard({ job, isLoggedIn = false }: { job: Job; isLoggedIn?: boolean }) {
   const salary = formatSalary(job.salary_min, job.salary_max)
 
   return (
@@ -23,7 +23,17 @@ export default function JobCard({ job }: { job: Job }) {
         <div className="p-6 flex flex-col flex-1">
           <div className="flex items-start justify-between gap-3 mb-4">
             <div className="min-w-0">
-              <p className="text-xs text-[var(--color-muted)] mb-1.5 truncate">{job.company_name}</p>
+              {/* Company name — only visible when logged in */}
+              {isLoggedIn ? (
+                <p className="text-xs text-[var(--color-muted)] mb-1.5 truncate">{job.company_name}</p>
+              ) : (
+                <p className="text-xs text-[var(--color-subtle)] mb-1.5 flex items-center gap-1">
+                  <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                  </svg>
+                  ログイン後に表示
+                </p>
+              )}
               <h3 className="font-display font-bold text-base text-[var(--color-text)] leading-snug line-clamp-2 group-hover:text-[var(--color-dark)] transition-colors">
                 {job.title}
               </h3>

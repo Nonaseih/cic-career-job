@@ -27,6 +27,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   const to = from + PAGE_SIZE - 1
 
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   let query = supabase
     .from('jobs')
@@ -78,7 +79,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
                   <StaggerList key={page} className="grid grid-cols-1 sm:grid-cols-2 gap-4" delay={0.05}>
                     {(jobs as Job[]).map((job) => (
                       <StaggerItem key={job.id}>
-                        <JobCard job={job} />
+                        <JobCard job={job} isLoggedIn={!!user} />
                       </StaggerItem>
                     ))}
                   </StaggerList>

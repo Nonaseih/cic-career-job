@@ -53,6 +53,7 @@ const CATEGORIES = [
 
 export default async function TopPage() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const [{ data: jobs }, { count }] = await Promise.all([
     supabase.from('jobs').select('*').eq('is_published', true).order('created_at', { ascending: false }).limit(6),
@@ -227,7 +228,7 @@ export default async function TopPage() {
             <StaggerList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" stagger={0.07}>
               {(jobs as Job[]).map((job) => (
                 <StaggerItem key={job.id}>
-                  <JobCard job={job} />
+                  <JobCard job={job} isLoggedIn={!!user} />
                 </StaggerItem>
               ))}
             </StaggerList>
