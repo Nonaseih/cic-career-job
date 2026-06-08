@@ -39,7 +39,7 @@ export default async function Header() {
         ].join(' ')}>
           <Link href="/jobs" className="hover:text-white transition-colors">求人を探す</Link>
           <Link href="/contact" className="hover:text-white transition-colors">お問い合わせ</Link>
-          <a href="https://www.cic-ct.co.jp/career-job/" target="_blank" rel="noopener noreferrer"
+          <a href="https://www.cic-ct.co.jp/career-job/recruitment/" target="_blank" rel="noopener noreferrer"
             className="hover:text-white transition-colors">採用担当者様</a>
         </nav>
 
