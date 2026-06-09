@@ -153,17 +153,15 @@ export default async function TopPage() {
               </FadeUp>
             </div>
 
-            {/* Right: Search form card */}
+            {/* Right: Search form — no container, sits bare on the dark bg */}
             <FadeUp delay={0.18}>
-              <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-2xl p-8">
-                <p className="font-display font-bold text-white text-lg mb-1">求人を検索する</p>
-                <p className="text-white/50 text-xs mb-6">条件を選んで、あなたに合った求人を探しましょう。</p>
-                <HeroSearch />
-                <div className="mt-5 pt-5 border-t border-white/10 text-center">
-                  <Link href="/register" className="text-xs text-white/50 hover:text-white transition-colors">
-                    会員登録（無料）で非公開求人も閲覧 →
-                  </Link>
-                </div>
+              <p className="font-display font-bold text-white text-lg mb-1">求人を検索する</p>
+              <p className="text-white/40 text-xs mb-6">条件を選んで、あなたに合った求人を探しましょう。</p>
+              <HeroSearch />
+              <div className="mt-5 pt-5 border-t border-white/10">
+                <Link href="/register" className="text-xs text-white/40 hover:text-white transition-colors">
+                  会員登録（無料）で非公開求人も閲覧 →
+                </Link>
               </div>
             </FadeUp>
 

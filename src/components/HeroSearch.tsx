@@ -17,12 +17,45 @@ const REGIONS: Record<string, string[]> = {
   '九州・沖縄':  ['福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'],
 }
 
+function SelectField({
+  label, value, onChange, options, placeholder,
+}: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  options: string[]
+  placeholder: string
+}) {
+  return (
+    <div className="relative">
+      <label className="block text-[10px] font-latin tracking-[.15em] uppercase text-white/40 mb-1">{label}</label>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full appearance-none bg-transparent border-0 border-b border-white/25 pb-2 pt-0.5 text-sm text-white focus:outline-none focus:border-white/60 transition-colors cursor-pointer pr-6"
+          style={{ colorScheme: 'dark' }}
+        >
+          <option value="" style={{ background: '#2d1408', color: '#fff' }}>{placeholder}</option>
+          {options.map((o) => (
+            <option key={o} value={o} style={{ background: '#2d1408', color: '#fff' }}>{o}</option>
+          ))}
+        </select>
+        {/* Custom chevron */}
+        <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
 export default function HeroSearch() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const [jobType, setJobType] = useState('')
-  const [region, setRegion] = useState('')
-  const [area, setArea] = useState('')
+  const [region, setRegion]   = useState('')
+  const [area, setArea]       = useState('')
 
   const prefectures = region ? REGIONS[region] : []
 
@@ -36,51 +69,59 @@ export default function HeroSearch() {
     router.push(`/jobs${p.toString() ? `?${p.toString()}` : ''}`)
   }
 
-  const INPUT = 'w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/50 transition-colors'
-  const SELECT = `${INPUT} appearance-none`
-
   return (
-    <form onSubmit={handleSearch} className="space-y-3">
-      {/* Keyword */}
-      <input
-        type="text"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        placeholder="キーワード（職種・会社名など）"
-        className={INPUT}
-      />
+    <form onSubmit={handleSearch} className="space-y-5">
+
+      {/* Keyword — underline style */}
+      <div>
+        <label className="block text-[10px] font-latin tracking-[.15em] uppercase text-white/40 mb-1">キーワード</label>
+        <input
+          type="text"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="職種・会社名など"
+          className="w-full bg-transparent border-0 border-b border-white/25 pb-2 pt-0.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/60 transition-colors"
+        />
+      </div>
 
       {/* Job type */}
-      <select value={jobType} onChange={(e) => setJobType(e.target.value)} className={SELECT}>
-        <option value="">職種を選択</option>
-        {JOB_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-      </select>
+      <SelectField
+        label="職種"
+        value={jobType}
+        onChange={setJobType}
+        options={JOB_TYPES}
+        placeholder="すべての職種"
+      />
 
       {/* Region */}
-      <select
+      <SelectField
+        label="エリア"
         value={region}
-        onChange={(e) => { setRegion(e.target.value); setArea('') }}
-        className={SELECT}
-      >
-        <option value="">エリアを選択</option>
-        {Object.keys(REGIONS).map((r) => <option key={r} value={r}>{r}</option>)}
-      </select>
+        onChange={(v) => { setRegion(v); setArea('') }}
+        options={Object.keys(REGIONS)}
+        placeholder="すべてのエリア"
+      />
 
-      {/* Prefecture — only shown when region selected */}
+      {/* Prefecture */}
       {region && (
-        <select value={area} onChange={(e) => setArea(e.target.value)} className={SELECT}>
-          <option value="">{region}（全域）</option>
-          {prefectures.map((p) => <option key={p} value={p}>{p}</option>)}
-        </select>
+        <SelectField
+          label="都道府県"
+          value={area}
+          onChange={setArea}
+          options={prefectures}
+          placeholder={`${region}（全域）`}
+        />
       )}
 
-      <button
-        type="submit"
-        className="w-full bg-[var(--color-red)] hover:bg-[var(--color-red-dark)] text-white font-display font-bold py-3.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
-      >
-        求人を検索する
-        <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">›</span>
-      </button>
+      <div className="pt-2">
+        <button
+          type="submit"
+          className="w-full bg-[var(--color-red)] hover:bg-[var(--color-red-dark)] text-white font-display font-bold py-3.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+        >
+          求人を検索する
+          <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">›</span>
+        </button>
+      </div>
     </form>
   )
 }
