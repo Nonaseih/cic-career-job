@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import JobCard from '@/components/JobCard'
+import HeroSearch from '@/components/HeroSearch'
 import { FadeUp, FadeInView, StaggerList, StaggerItem } from '@/components/Animate'
 import type { Job } from '@/lib/types'
 
@@ -34,11 +34,46 @@ function PillButton({ href, label, dark = false }: { href: string; label: string
 
 // ── 転職の流れ ────────────────────────────────────────────────────────
 const FLOW = [
-  { n: '01', title: '無料登録', sub: '1分で完了' },
-  { n: '02', title: 'CA面談', sub: '希望をヒアリング' },
-  { n: '03', title: '求人紹介', sub: '非公開求人も' },
-  { n: '04', title: '応募・面接', sub: '書類・面接サポート' },
-  { n: '05', title: '入社後フォロー', sub: '3ヶ月継続対応' },
+  {
+    n: '01', title: '無料登録', sub: '1分で完了',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
+    ),
+  },
+  {
+    n: '02', title: 'CA面談', sub: 'オンライン対応可',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+      </svg>
+    ),
+  },
+  {
+    n: '03', title: '求人紹介', sub: '非公開求人も多数',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    n: '04', title: '応募・面接', sub: '書類・面接サポート',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
+  {
+    n: '05', title: '入社後フォロー', sub: '3ヶ月継続対応',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+  },
 ]
 
 // ── 資格・職種カテゴリ ─────────────────────────────────────────────────
@@ -63,92 +98,76 @@ export default async function TopPage() {
   return (
     <div className="bg-[var(--color-bg)]">
 
-      {/* ── HERO — diagonal slash split ───────────────────────────────── */}
-      {/* Pulls up by header height so it sits behind the transparent nav */}
-      <section className="relative -mt-[68px] min-h-screen flex items-center overflow-hidden">
+      {/* ── HERO — dark panel + search form ──────────────────────────── */}
+      <section className="relative -mt-[68px] min-h-screen flex items-center overflow-hidden bg-[var(--color-bg-dark)]">
 
-        {/* LEFT: solid dark panel */}
-        <div className="absolute inset-y-0 left-0 w-[58%] bg-[var(--color-bg-dark)]" />
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-dark-2)]/30 via-transparent to-black/40" />
 
-        {/* RIGHT: photo with diagonal left edge */}
-        <div
-          className="absolute inset-y-0 right-0 w-[55%]"
-          style={{ clipPath: 'polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
-        >
-          <Image
-            src="/staff/ca-staff-4.jpg"
-            alt="キャリアアドバイザー"
-            fill
-            className="object-cover object-top"
-            priority
-          />
-          {/* Fade the left edge of the photo into the dark panel */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0f0c08] via-[#0f0c08]/20 to-transparent" />
-          {/* Subtle top/bottom fade */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0c08]/30 via-transparent to-[#0f0c08]/50" />
-        </div>
-
-        {/* CONTENT — left-center, overlapping the slash */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-8 py-32">
-          <div className="max-w-[56%]">
-            <FadeUp>
-              <p className="flex items-center gap-2 text-xs font-latin tracking-[.2em] uppercase text-white/50 mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-red)] inline-block" />
-                建設業専門のキャリア支援
-              </p>
-            </FadeUp>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-            <FadeUp delay={0.1}>
-              <h1 className="leading-[1.08] mb-6">
-                <span className="block font-display font-black text-[clamp(2.8rem,5.5vw,5rem)] text-white">
-                  あなたの経験を、
-                </span>
-                <em className="block font-serif text-[clamp(2.8rem,5.5vw,5rem)] text-white/85" style={{ fontStyle: 'italic' }}>
-                  次の現場へ。
-                </em>
-              </h1>
-            </FadeUp>
+            {/* Left: Text */}
+            <div>
+              <FadeUp>
+                <p className="flex items-center gap-2 text-xs font-latin tracking-[.2em] uppercase text-white/50 mb-8">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-red)] inline-block" />
+                  建設業専門のキャリア支援
+                </p>
+              </FadeUp>
 
-            <FadeUp delay={0.2}>
-              <p className="text-white/60 text-base leading-relaxed max-w-md mb-10">
-                施工管理技士・建設技術者に特化した転職支援サービス。
-                専任のキャリアアドバイザーが求人紹介から入社後まで、完全無料でサポートします。
-              </p>
-            </FadeUp>
+              <FadeUp delay={0.1}>
+                <h1 className="leading-[1.1] mb-6">
+                  <span className="block font-display font-black text-[clamp(2.6rem,5vw,4.5rem)] text-white">
+                    あなたの経験を、
+                  </span>
+                  <span className="block font-display font-black text-[clamp(2.6rem,5vw,4.5rem)] text-[var(--color-red)]">
+                    次の現場へ。
+                  </span>
+                </h1>
+              </FadeUp>
 
-            <FadeUp delay={0.28}>
-              <div className="flex flex-wrap gap-3">
-                <Link href="/register"
-                  className="inline-flex items-center gap-3 rounded-full bg-white text-[var(--color-dark)] text-sm font-medium pl-6 pr-1.5 py-1.5 hover:bg-white/90 transition-colors">
-                  無料会員登録
-                  <span className="w-8 h-8 rounded-full bg-[var(--color-dark)] text-white flex items-center justify-center text-xs">›</span>
-                </Link>
-                <Link href="/jobs"
-                  className="inline-flex items-center gap-3 rounded-full border border-white/30 text-white text-sm font-medium pl-6 pr-1.5 py-1.5 hover:bg-white/10 transition-colors">
-                  求人を探す
-                  <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center text-xs">›</span>
-                </Link>
+              <FadeUp delay={0.2}>
+                <p className="text-white/60 text-base leading-relaxed max-w-md mb-10">
+                  施工管理技士・建設技術者に特化した転職支援サービス。
+                  専任のキャリアアドバイザーが求人紹介から入社後まで、完全無料でサポートします。
+                </p>
+              </FadeUp>
+
+              {/* Trust stats */}
+              <FadeUp delay={0.28}>
+                <div className="flex items-center gap-8 flex-wrap">
+                  {[
+                    { value: count?.toLocaleString() ?? '0', unit: '件', label: '掲載求人数' },
+                    { value: '98', unit: '%', label: 'サポート満足度' },
+                    { value: '0', unit: '円', label: '完全無料' },
+                  ].map((s) => (
+                    <div key={s.label}>
+                      <p className="font-latin font-black text-3xl text-white leading-none">
+                        {s.value}<span className="text-base font-normal text-white/50 ml-1">{s.unit}</span>
+                      </p>
+                      <p className="text-xs text-white/40 mt-1">{s.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </FadeUp>
+            </div>
+
+            {/* Right: Search form card */}
+            <FadeUp delay={0.18}>
+              <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-2xl p-8">
+                <p className="font-display font-bold text-white text-lg mb-1">求人を検索する</p>
+                <p className="text-white/50 text-xs mb-6">条件を選んで、あなたに合った求人を探しましょう。</p>
+                <HeroSearch />
+                <div className="mt-5 pt-5 border-t border-white/10 text-center">
+                  <Link href="/register" className="text-xs text-white/50 hover:text-white transition-colors">
+                    会員登録（無料）で非公開求人も閲覧 →
+                  </Link>
+                </div>
               </div>
             </FadeUp>
-          </div>
 
-          {/* Trust stats */}
-          <FadeUp delay={0.38}>
-            <div className="mt-20 flex items-center gap-8 sm:gap-12 flex-wrap">
-              {[
-                { value: count?.toLocaleString() ?? '0', unit: '件', label: '掲載求人数' },
-                { value: '98', unit: '%', label: 'サポート満足度' },
-                { value: '0', unit: '円', label: '完全無料' },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="font-latin font-black text-3xl text-white leading-none">
-                    {s.value}<span className="text-base font-normal text-white/50 ml-1">{s.unit}</span>
-                  </p>
-                  <p className="text-xs text-white/40 mt-1">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
+          </div>
         </div>
       </section>
 
@@ -163,7 +182,7 @@ export default async function TopPage() {
               <div>
                 <h2 className="font-display font-black text-[clamp(1.6rem,3.5vw,2.8rem)] text-[var(--color-text)] leading-tight max-w-2xl">
                   建設業界27年の実績を持つ会社が手がける、
-                  <em className="font-serif not-italic" style={{ fontStyle: 'italic' }}>施工管理技士専門の転職支援。</em>
+                  <span className="text-[var(--color-red)]">施工管理技士専門の転職支援。</span>
                 </h2>
                 <p className="mt-6 text-[var(--color-muted)] leading-relaxed max-w-xl">
                   株式会社日本建設情報センターは、施工管理技士の資格取得講座を27年運営してきた実績を基に、
@@ -184,7 +203,7 @@ export default async function TopPage() {
           <FadeInView>
             <SectionLabel text="Why Choose Us" />
             <h2 className="font-display font-black text-[clamp(1.6rem,3.5vw,2.8rem)] text-[var(--color-text)] mb-14 leading-tight">
-              選ばれる<em className="font-serif not-italic" style={{ fontStyle: 'italic' }}>3つの理由</em>
+              選ばれる<span className="text-[var(--color-red)]">3つの理由</span>
             </h2>
           </FadeInView>
 
@@ -214,7 +233,7 @@ export default async function TopPage() {
               <div>
                 <SectionLabel text="New Arrivals" />
                 <h2 className="font-display font-black text-[clamp(1.6rem,3.5vw,2.8rem)] text-[var(--color-text)] leading-tight">
-                  新着<em className="font-serif not-italic" style={{ fontStyle: 'italic' }}>求人</em>
+                  新着<span className="text-[var(--color-red)]">求人</span>
                 </h2>
               </div>
               <Link href="/jobs" className="hidden sm:flex items-center gap-2 text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors">
@@ -252,7 +271,7 @@ export default async function TopPage() {
           <FadeInView>
             <SectionLabel text="Find Your Role" />
             <h2 className="font-display font-black text-[clamp(1.6rem,3.5vw,2.8rem)] text-white mb-12 leading-tight">
-              職種・資格から<em className="font-serif not-italic text-white/70" style={{ fontStyle: 'italic' }}>探す</em>
+              職種・資格から<span className="text-[var(--color-red)]">探す</span>
             </h2>
           </FadeInView>
 
@@ -276,20 +295,27 @@ export default async function TopPage() {
           <FadeInView>
             <SectionLabel text="How It Works" />
             <h2 className="font-display font-black text-[clamp(1.6rem,3.5vw,2.8rem)] text-[var(--color-text)] mb-14 leading-tight">
-              転職の<em className="font-serif not-italic" style={{ fontStyle: 'italic' }}>流れ</em>
+              転職の<span className="text-[var(--color-red)]">流れ</span>
             </h2>
           </FadeInView>
 
-          <StaggerList className="grid grid-cols-1 sm:grid-cols-5 gap-px bg-[var(--color-line)]" stagger={0.08}>
+          <StaggerList className="grid grid-cols-1 sm:grid-cols-5 gap-4" stagger={0.08}>
             {FLOW.map((step, i) => (
               <StaggerItem key={step.n}>
-                <div className="bg-[var(--color-bg-warm)] p-8 relative">
+                <div className="relative flex flex-col items-center text-center bg-white border border-[var(--color-line)] rounded-2xl p-6 h-full shadow-sm">
+                  {/* Step number */}
+                  <p className="font-latin font-black text-xs text-[var(--color-red)] tracking-widest mb-3">STEP {step.n}</p>
+                  {/* Icon */}
+                  <div className="w-14 h-14 rounded-full bg-[var(--color-red)]/8 flex items-center justify-center text-[var(--color-red)] mb-4">
+                    {step.icon}
+                  </div>
+                  {/* Title */}
+                  <p className="font-display font-bold text-sm text-[var(--color-text)] mb-1">{step.title}</p>
+                  <p className="text-xs text-[var(--color-muted)]">{step.sub}</p>
+                  {/* Arrow connector */}
                   {i < FLOW.length - 1 && (
-                    <span className="hidden sm:block absolute -right-px top-1/2 -translate-y-1/2 z-10 text-[var(--color-line-dark)] text-lg">›</span>
+                    <span className="hidden sm:block absolute -right-5 top-1/2 -translate-y-1/2 z-10 text-[var(--color-line-dark)] text-xl font-bold">›</span>
                   )}
-                  <p className="font-latin font-black text-5xl text-[var(--color-red)] mb-4 leading-none">{step.n}</p>
-                  <p className="font-display font-bold text-sm text-[var(--color-text)]">{step.title}</p>
-                  <p className="text-xs text-[var(--color-muted)] mt-1">{step.sub}</p>
                 </div>
               </StaggerItem>
             ))}
@@ -304,7 +330,7 @@ export default async function TopPage() {
             <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 items-start mb-12">
               <SectionLabel text="Our Advisors" />
               <h2 className="font-display font-black text-[clamp(1.6rem,3vw,2.4rem)] text-[var(--color-text)] leading-tight">
-                担当キャリア<em className="font-serif not-italic" style={{ fontStyle: 'italic' }}>アドバイザー</em>
+                担当キャリア<span className="text-[var(--color-red)]">アドバイザー</span>
               </h2>
             </div>
           </FadeInView>
@@ -313,11 +339,10 @@ export default async function TopPage() {
             {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <StaggerItem key={n}>
                 <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[var(--color-bg-warm)]">
-                  <Image
+                  <img
                     src={`/staff/ca-staff-${n}.jpg`}
                     alt={`キャリアアドバイザー ${n}`}
-                    fill
-                    className="object-cover object-top"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                 </div>
               </StaggerItem>
@@ -328,10 +353,8 @@ export default async function TopPage() {
 
       {/* ── CTA BAND ────────────────────────────────────────────────────── */}
       <section className="relative py-28 px-8 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="/staff/ca-staff-1.jpg" alt="" fill className="object-cover object-center" />
-          <div className="absolute inset-0 bg-[#0f0c08]/88" />
-        </div>
+        <div className="absolute inset-0 bg-[var(--color-bg-dark)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-dark-2)]/40 via-transparent to-black/30" />
 
         <div className="relative z-10 max-w-7xl mx-auto text-center">
           <FadeInView>
@@ -342,9 +365,9 @@ export default async function TopPage() {
             <h2 className="font-display font-black text-[clamp(2rem,4vw,3.5rem)] text-white leading-tight mb-4">
               次のキャリアを、
             </h2>
-            <em className="block font-serif text-[clamp(2rem,4vw,3.5rem)] text-white/80 mb-8" style={{ fontStyle: 'italic' }}>
+            <p className="font-display font-black text-[clamp(2rem,4vw,3.5rem)] text-[var(--color-red)] mb-8">
               私たちと一緒に。
-            </em>
+            </p>
             <p className="text-white/50 text-sm mb-10 max-w-md mx-auto leading-relaxed">
               専任のキャリアアドバイザーが、あなたの経験と希望に合った求人を無料でご紹介します。
             </p>

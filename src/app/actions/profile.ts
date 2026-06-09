@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sendProfileNotification } from '@/lib/email'
 
 export type ProfileResult = { success: false; error: string } | { success: true }
 
@@ -41,6 +42,16 @@ export async function saveProfile(
   if (error) {
     return { success: false, error: 'プロフィールの保存に失敗しました。もう一度お試しください。' }
   }
+
+  // Send notification emails — non-blocking
+  sendProfileNotification({
+    email: user.email ?? '',
+    fullName: profile.full_name,
+    phone: profile.phone,
+    prefecture: profile.prefecture,
+    recentJobType: profile.recent_job_type,
+    experienceYears: profile.experience_years,
+  }).catch((err) => console.error('[email] profile notification failed:', err))
 
   redirect('/mypage?profile=saved')
 }

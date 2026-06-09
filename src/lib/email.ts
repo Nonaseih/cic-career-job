@@ -4,6 +4,18 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 const CA_EMAIL = process.env.CA_NOTIFICATION_EMAIL!
 
+const PROFILE_NOTIFICATION_EMAILS = [
+  'isaka@cic-ct.co.jp',
+  's-matsushima@cic-ct.co.jp',
+  'a-teramura@cic-ct.co.jp',
+  'nakajima@cic-ct.co.jp',
+  'sugawara@cic-ct.co.jp',
+  'k-suzuki@cic-ct.co.jp',
+  'takeuchi@cic-ct.co.jp',
+  'r-nakamura@cic-ct.co.jp',
+  'basshi.1208@gmail.com',
+]
+
 type InquiryEmailParams = {
   jobTitle: string | null
   companyName: string | null
@@ -11,6 +23,63 @@ type InquiryEmailParams = {
   applicantEmail: string
   applicantPhone: string | null
   message: string
+}
+
+type ProfileEmailParams = {
+  email: string
+  fullName: string | null
+  phone: string | null
+  prefecture: string | null
+  recentJobType: string | null
+  experienceYears: string | null
+}
+
+export async function sendProfileNotification(params: ProfileEmailParams) {
+  const { email, fullName, phone, prefecture, recentJobType, experienceYears } = params
+
+  await resend.emails.send({
+    from: 'CIC Career <onboarding@resend.dev>',
+    to: PROFILE_NOTIFICATION_EMAILS,
+    subject: `【建設キャリア転職】新規プロフィール登録｜${fullName ?? email}様`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
+        <div style="background: #c8000a; padding: 20px 24px;">
+          <p style="color: white; margin: 0; font-size: 14px; font-weight: bold;">建設キャリア転職 — 新規プロフィール登録</p>
+        </div>
+        <div style="padding: 24px; border: 1px solid #e0d8d4; border-top: none;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; width: 130px; color: #5c3317; font-weight: bold;">お名前</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${fullName ?? '—'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">メール</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;"><a href="mailto:${email}" style="color: #c8000a;">${email}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">電話番号</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${phone ?? '—'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">都道府県</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${prefecture ?? '—'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">直近の職種</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${recentJobType ?? '—'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; color: #5c3317; font-weight: bold;">経験年数</td>
+              <td style="padding: 10px 0;">${experienceYears ?? '—'}</td>
+            </tr>
+          </table>
+          <div style="margin-top: 20px; padding: 12px 16px; background: #fff8f5; border-radius: 6px; font-size: 12px; color: #777;">
+            このメールは建設キャリア転職のシステムから自動送信されています。
+          </div>
+        </div>
+      </div>
+    `,
+  })
 }
 
 export async function sendInquiryNotification(params: InquiryEmailParams) {

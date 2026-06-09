@@ -4,11 +4,11 @@
   /* ── Backgrounds ── */
   --color-bg:        #ffffff;
   --color-bg-warm:   #f7f3ee;
-  --color-bg-dark:   #0f0c08;
+  --color-bg-dark:   #1e0e06;
 
   /* ── Dark tones ── */
-  --color-dark:      #141008;
-  --color-dark-2:    #2c2015;
+  --color-dark:      #2d1408;
+  --color-dark-2:    #4a2410;
 
   /* ── Brand red ── */
   --color-red:       #c8000a;
@@ -31,10 +31,10 @@
   /* ── Legacy aliases — DO NOT author new code against these ── */
   --color-background: #ffffff;
   --color-foreground: #1a1510;
-  --color-navy:            #141008;
-  --color-navy-900:        #0f0c08;
-  --color-navy-700:        #2c2015;
-  --color-navy-600:        #3d2e1a;
+  --color-navy:            #2d1408;
+  --color-navy-900:        #1e0e06;
+  --color-navy-700:        #4a2410;
+  --color-navy-600:        #5c3018;
   --color-blue:            #c8000a;
   --color-blue-600:        #a00008;
   --color-blue-300:        #f87171;
@@ -43,9 +43,9 @@
   --color-sky-200:         #e5ddd4;
   --color-slate:           #1a1510;
   --color-body:            #1a1510;
-  --color-ink:             #141008;
-  --color-ink-700:         #2c2015;
-  --color-ink-600:         #3d2e1a;
+  --color-ink:             #2d1408;
+  --color-ink-700:         #4a2410;
+  --color-ink-600:         #5c3018;
   --color-warm-50:         #f7f3ee;
   --color-warm-100:        #ede7df;
   --color-warm-200:        #e5ddd4;
@@ -53,8 +53,8 @@
   --color-cic-red-dark:    #a00008;
   --color-cic-cream:       #f7f3ee;
   --color-sand:            #f7f3ee;
-  --color-cic-brown:       #141008;
-  --color-cic-brown-light: #2c2015;
+  --color-cic-brown:       #2d1408;
+  --color-cic-brown-light: #4a2410;
   --color-cic-gray:        #f7f3ee;
   --color-cic-border:      #e5ddd4;
 

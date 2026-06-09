@@ -15,16 +15,26 @@ export const metadata: Metadata = {
 
 const PAGE_SIZE = 20
 
-type SearchParams = { q?: string; area?: string; type?: string; page?: string }
+const REGIONS: Record<string, string[]> = {
+  '北海道・東北': ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県'],
+  '関東':        ['茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県'],
+  '中部':        ['新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県'],
+  '近畿':        ['三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県'],
+  '中国・四国':  ['鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県'],
+  '九州・沖縄':  ['福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'],
+}
+
+type SearchParams = { q?: string; area?: string; region?: string; category?: string; page?: string }
 
 export default async function JobsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams
-  const keyword = params.q ?? ''
-  const area = params.area ?? ''
-  const employmentType = params.type ?? ''
+  const keyword  = params.q        ?? ''
+  const area     = params.area     ?? ''
+  const region   = params.region   ?? ''
+  const category = params.category ?? ''
   const page = Math.max(1, parseInt(params.page ?? '1', 10))
   const from = (page - 1) * PAGE_SIZE
-  const to = from + PAGE_SIZE - 1
+  const to   = from + PAGE_SIZE - 1
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -36,9 +46,13 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
     .order('created_at', { ascending: false })
     .range(from, to)
 
-  if (keyword) query = query.or(`title.ilike.%${keyword}%,company_name.ilike.%${keyword}%`)
-  if (area) query = query.contains('areas', [area])
-  if (employmentType) query = query.eq('employment_type', employmentType)
+  if (keyword)  query = query.or(`title.ilike.%${keyword}%,company_name.ilike.%${keyword}%`)
+  if (category) query = query.ilike('title', `%${category}%`)
+  if (area)     query = query.contains('areas', [area])
+  else if (region) {
+    const prefectures = REGIONS[region] ?? []
+    if (prefectures.length > 0) query = query.overlaps('areas', prefectures)
+  }
 
   const { data: jobs, count } = await query
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE)
@@ -59,16 +73,16 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
               <p className="text-sm text-[var(--color-muted)] mb-5">
                 <span className="font-latin font-extrabold text-xl text-[var(--color-ink)]">{count.toLocaleString()}</span>
                 <span className="ml-1">件の求人</span>
-                {(keyword || area || employmentType) && <span className="text-[var(--color-red)] ml-1">（絞り込み中）</span>}
+                {(keyword || area || region || category) && <span className="text-[var(--color-red)] ml-1">（絞り込み中）</span>}
               </p>
             </FadeInView>
           )}
 
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Filters sidebar */}
-            <aside className="lg:w-60 shrink-0">
+            <aside className="lg:w-64 shrink-0">
               <Suspense>
-                <JobFilters keyword={keyword} area={area} employmentType={employmentType} />
+                <JobFilters keyword={keyword} area={area} region={region} category={category} />
               </Suspense>
             </aside>
 
@@ -125,10 +139,11 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
 
 function PaginationLink({ page, params, label, current }: { page: number; params: SearchParams; label: string; current?: boolean }) {
   const sp = new URLSearchParams()
-  if (params.q) sp.set('q', params.q)
-  if (params.area) sp.set('area', params.area)
-  if (params.type) sp.set('type', params.type)
-  if (page > 1) sp.set('page', String(page))
+  if (params.q)        sp.set('q', params.q)
+  if (params.area)     sp.set('area', params.area)
+  if (params.region)   sp.set('region', params.region)
+  if (params.category) sp.set('category', params.category)
+  if (page > 1)        sp.set('page', String(page))
   const href = `/jobs${sp.toString() ? `?${sp.toString()}` : ''}`
 
   return (
