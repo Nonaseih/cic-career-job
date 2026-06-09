@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const JOB_TYPES = [
@@ -17,7 +17,7 @@ const REGIONS: Record<string, string[]> = {
   '九州・沖縄':  ['福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'],
 }
 
-function SelectField({
+function CustomSelect({
   label, value, onChange, options, placeholder,
 }: {
   label: string
@@ -26,26 +26,67 @@ function SelectField({
   options: string[]
   placeholder: string
 }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const displayed = value || placeholder
+
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       <label className="block text-[10px] font-latin tracking-[.15em] uppercase text-white/40 mb-1">{label}</label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none bg-transparent border-0 border-b border-white/25 pb-2 pt-0.5 text-sm text-white focus:outline-none focus:border-white/60 transition-colors cursor-pointer pr-6"
-          style={{ colorScheme: 'dark' }}
+
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between border-b border-white/25 pb-2 pt-0.5 text-sm text-left transition-colors focus:outline-none hover:border-white/50"
+      >
+        <span className={value ? 'text-white' : 'text-white/35'}>{displayed}</span>
+        <svg
+          className={`w-3.5 h-3.5 text-white/40 transition-transform duration-200 shrink-0 ml-2 ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
         >
-          <option value="" style={{ background: '#2d1408', color: '#fff' }}>{placeholder}</option>
-          {options.map((o) => (
-            <option key={o} value={o} style={{ background: '#2d1408', color: '#fff' }}>{o}</option>
-          ))}
-        </select>
-        {/* Custom chevron */}
-        <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
-      </div>
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div className="absolute z-50 left-0 right-0 mt-1 bg-[#2d1408] border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
+          {/* Clear / placeholder option */}
+          <button
+            type="button"
+            onClick={() => { onChange(''); setOpen(false) }}
+            className="w-full text-left px-5 py-3 text-sm text-white/35 hover:bg-white/5 transition-colors border-b border-white/8"
+          >
+            {placeholder}
+          </button>
+          <div className="max-h-56 overflow-y-auto">
+            {options.map((o) => (
+              <button
+                key={o}
+                type="button"
+                onClick={() => { onChange(o); setOpen(false) }}
+                className={`w-full text-left px-5 py-3 text-sm transition-colors ${
+                  value === o
+                    ? 'text-white bg-white/10 font-medium'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {o}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -72,7 +113,7 @@ export default function HeroSearch() {
   return (
     <form onSubmit={handleSearch} className="space-y-5">
 
-      {/* Keyword — underline style */}
+      {/* Keyword */}
       <div>
         <label className="block text-[10px] font-latin tracking-[.15em] uppercase text-white/40 mb-1">キーワード</label>
         <input
@@ -84,17 +125,9 @@ export default function HeroSearch() {
         />
       </div>
 
-      {/* Job type */}
-      <SelectField
-        label="職種"
-        value={jobType}
-        onChange={setJobType}
-        options={JOB_TYPES}
-        placeholder="すべての職種"
-      />
+      <CustomSelect label="職種" value={jobType} onChange={setJobType} options={JOB_TYPES} placeholder="すべての職種" />
 
-      {/* Region */}
-      <SelectField
+      <CustomSelect
         label="エリア"
         value={region}
         onChange={(v) => { setRegion(v); setArea('') }}
@@ -102,9 +135,8 @@ export default function HeroSearch() {
         placeholder="すべてのエリア"
       />
 
-      {/* Prefecture */}
       {region && (
-        <SelectField
+        <CustomSelect
           label="都道府県"
           value={area}
           onChange={setArea}
