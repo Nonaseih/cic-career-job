@@ -32,10 +32,37 @@ type ProfileEmailParams = {
   prefecture: string | null
   recentJobType: string | null
   experienceYears: string | null
+  qualifications: string[]
+  experienceTypes: string[]
+  desiredJobType: string | null
+  desiredPrefecture: string | null
+  desiredSalary: string | null
+  relocation: string | null
+  otherRequirements: string | null
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
 }
 
 export async function sendProfileNotification(params: ProfileEmailParams) {
-  const { email, fullName, phone, prefecture, recentJobType, experienceYears } = params
+  const {
+    email, fullName, phone, prefecture, recentJobType, experienceYears,
+    qualifications, experienceTypes, desiredJobType, desiredPrefecture,
+    desiredSalary, relocation, otherRequirements,
+  } = params
+
+  const row = (label: string, value: string, last = false) => `
+            <tr>
+              <td style="padding: 10px 0; ${last ? '' : 'border-bottom: 1px solid #f0ebe8; '}width: 130px; color: #5c3317; font-weight: bold; vertical-align: top;">${label}</td>
+              <td style="padding: 10px 0; ${last ? '' : 'border-bottom: 1px solid #f0ebe8; '}white-space: pre-wrap;">${value}</td>
+            </tr>`
+
+  const qualificationsText = qualifications.length > 0 ? escapeHtml(qualifications.join('、')) : '—'
+  const experienceTypesText = experienceTypes.length > 0 ? escapeHtml(experienceTypes.join('、')) : '—'
 
   await resend.emails.send({
     from: 'CIC Career <onboarding@resend.dev>',
@@ -48,30 +75,19 @@ export async function sendProfileNotification(params: ProfileEmailParams) {
         </div>
         <div style="padding: 24px; border: 1px solid #e0d8d4; border-top: none;">
           <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; width: 130px; color: #5c3317; font-weight: bold;">お名前</td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${fullName ?? '—'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">メール</td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;"><a href="mailto:${email}" style="color: #c8000a;">${email}</a></td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">電話番号</td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${phone ?? '—'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">都道府県</td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${prefecture ?? '—'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8; color: #5c3317; font-weight: bold;">直近の職種</td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #f0ebe8;">${recentJobType ?? '—'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; color: #5c3317; font-weight: bold;">経験年数</td>
-              <td style="padding: 10px 0;">${experienceYears ?? '—'}</td>
-            </tr>
+            ${row('お名前', escapeHtml(fullName ?? '—'))}
+            ${row('メール', `<a href="mailto:${email}" style="color: #c8000a;">${escapeHtml(email)}</a>`)}
+            ${row('電話番号', escapeHtml(phone ?? '—'))}
+            ${row('都道府県', escapeHtml(prefecture ?? '—'))}
+            ${row('保有資格', qualificationsText)}
+            ${row('直近の職種', escapeHtml(recentJobType ?? '—'))}
+            ${row('経験年数', escapeHtml(experienceYears ?? '—'))}
+            ${row('経験職種', experienceTypesText)}
+            ${row('希望職種', escapeHtml(desiredJobType ?? '—'))}
+            ${row('希望勤務地', escapeHtml(desiredPrefecture ?? '—'))}
+            ${row('希望年収', escapeHtml(desiredSalary ?? '—'))}
+            ${row('転勤', escapeHtml(relocation ?? '—'))}
+            ${row('その他希望条件', escapeHtml(otherRequirements ?? '—'), true)}
           </table>
           <div style="margin-top: 20px; padding: 12px 16px; background: #fff8f5; border-radius: 6px; font-size: 12px; color: #777;">
             このメールは建設キャリア転職のシステムから自動送信されています。

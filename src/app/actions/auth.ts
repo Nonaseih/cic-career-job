@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { sendProfileNotification } from '@/lib/email'
+import { resolveSelectOther, resolveCheckboxOther } from '@/lib/profileOptions'
 
 export async function login(
   _prev: string | null,
@@ -56,6 +57,13 @@ export async function registerWithProfile(
   const email    = formData.get('email') as string
   const password = formData.get('password') as string
 
+  // 0. Validate "select at least one" groups before creating the account,
+  //    since native `required` can't enforce this on checkbox groups.
+  const qualifications  = resolveCheckboxOther(formData, 'qualifications')
+  const experienceTypes = resolveCheckboxOther(formData, 'experience_types')
+  if (qualifications.length === 0)  return '保有資格を1つ以上選択してください。'
+  if (experienceTypes.length === 0) return '経験職種を1つ以上選択してください。'
+
   // 1. Sign up the user
   const supabase = await createClient()
   const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password })
@@ -85,15 +93,16 @@ export async function registerWithProfile(
     city:              (formData.get('city') as string)?.trim() || null,
     employment_status: (formData.get('employment_status') as string) || null,
     current_employer:  (formData.get('current_employer') as string)?.trim() || null,
-    recent_job_type:   (formData.get('recent_job_type') as string) || null,
+    recent_job_type:   resolveSelectOther(formData, 'recent_job_type'),
     experience_years:  (formData.get('experience_years') as string) || null,
     current_salary:    (formData.get('current_salary') as string) || null,
-    experience_types:  formData.getAll('experience_types') as string[],
-    desired_job_type:  (formData.get('desired_job_type') as string) || null,
-    desired_prefecture:(formData.get('desired_prefecture') as string) || null,
-    can_relocate:      formData.get('can_relocate') === 'on',
+    experience_types:  experienceTypes,
+    desired_job_type:  resolveSelectOther(formData, 'desired_job_type'),
+    desired_prefecture:resolveSelectOther(formData, 'desired_prefecture'),
+    relocation:        (formData.get('relocation') as string) || null,
+    other_requirements:(formData.get('other_requirements') as string)?.trim() || null,
     desired_salary:    (formData.get('desired_salary') as string) || null,
-    qualifications:    formData.getAll('qualifications') as string[],
+    qualifications,
   }
 
   await serviceClient.from('profiles').upsert(profile)
@@ -101,11 +110,18 @@ export async function registerWithProfile(
   // 3. Send notification — non-blocking
   sendProfileNotification({
     email,
-    fullName:        profile.full_name,
-    phone:           profile.phone,
-    prefecture:      profile.prefecture,
-    recentJobType:   profile.recent_job_type,
-    experienceYears: profile.experience_years,
+    fullName:          profile.full_name,
+    phone:             profile.phone,
+    prefecture:        profile.prefecture,
+    recentJobType:     profile.recent_job_type,
+    experienceYears:   profile.experience_years,
+    qualifications:    profile.qualifications,
+    experienceTypes:   profile.experience_types,
+    desiredJobType:    profile.desired_job_type,
+    desiredPrefecture: profile.desired_prefecture,
+    desiredSalary:     profile.desired_salary,
+    relocation:        profile.relocation,
+    otherRequirements: profile.other_requirements,
   }).catch((err) => console.error('[email] profile notification failed:', err))
 
   redirect('/register/confirm')
