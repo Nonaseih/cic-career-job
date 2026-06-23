@@ -46,25 +46,31 @@ export default async function Header() {
 
         {/* CTAs */}
         <div className="flex items-center gap-3">
-          {user ? (
-            <Link href="/mypage"
-              className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors group-data-[scrolled=true]:bg-[var(--color-red)] group-data-[scrolled=true]:text-white group-data-[scrolled=true]:hover:bg-[var(--color-red)]/85">
-              マイページ
-              <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs group-data-[scrolled=true]:bg-white/20">›</span>
-            </Link>
-          ) : (
-            <>
-              <Link href="/login"
-                className="hidden sm:block text-sm text-white/70 hover:text-white transition-colors px-3 py-2 group-data-[scrolled=true]:text-[var(--color-dark)]/60 group-data-[scrolled=true]:hover:text-[var(--color-dark)]">
-                ログイン
-              </Link>
-              <Link href="/register"
+          {/* Desktop auth CTAs */}
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <Link href="/mypage"
                 className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors group-data-[scrolled=true]:bg-[var(--color-red)] group-data-[scrolled=true]:text-white group-data-[scrolled=true]:hover:bg-[var(--color-red)]/85">
-                無料会員登録
+                マイページ
                 <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs group-data-[scrolled=true]:bg-white/20">›</span>
               </Link>
-            </>
-          )}
+            ) : (
+              <>
+                <Link href="/login"
+                  className="text-sm text-white/70 hover:text-white transition-colors px-3 py-2 group-data-[scrolled=true]:text-[var(--color-dark)]/60 group-data-[scrolled=true]:hover:text-[var(--color-dark)]">
+                  ログイン
+                </Link>
+                <Link href="/register"
+                  className="flex items-center gap-2.5 bg-white text-[var(--color-dark)] text-sm font-medium rounded-full pl-5 pr-1.5 py-1.5 hover:bg-white/90 transition-colors group-data-[scrolled=true]:bg-[var(--color-red)] group-data-[scrolled=true]:text-white group-data-[scrolled=true]:hover:bg-[var(--color-red)]/85">
+                  無料会員登録
+                  <span className="w-7 h-7 bg-[var(--color-dark)]/10 rounded-full flex items-center justify-center text-xs group-data-[scrolled=true]:bg-white/20">›</span>
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Mobile menu */}
+          <MobileNav isLoggedIn={!!user} />
         </div>
       </div>
     </HeaderWrapper>
