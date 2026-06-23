@@ -13,19 +13,19 @@ export default async function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-[68px] flex items-center justify-between gap-3">
 
         {/* Brand — white logo on hero, red logo on scroll */}
-        <Link href="/" className="flex items-center shrink-0">
+        <Link href="/" className="flex items-center shrink-0 min-w-0">
           <Image
             src="/ca-logo.png"
             alt="建設キャリア転職"
             width={1272} height={225}
-            className="h-10 w-auto group-data-[scrolled=true]:hidden"
+            className="h-8 sm:h-9 md:h-10 w-auto group-data-[scrolled=true]:hidden"
             priority
           />
           <Image
             src="/ca-logo-red.png"
             alt="建設キャリア転職"
             width={1390} height={300}
-            className="h-10 w-auto hidden group-data-[scrolled=true]:block"
+            className="h-8 sm:h-9 md:h-10 w-auto hidden group-data-[scrolled=true]:block"
             priority
           />
         </Link>
