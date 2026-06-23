@@ -105,6 +105,10 @@ export async function importJobs(
   _prev: ImportResult | null,
   formData: FormData
 ): Promise<ImportResult> {
+  if (!(await assertAdmin())) {
+    return { success: false, error: '認証が必要です。再度ログインしてください。' }
+  }
+
   const encoded = formData.get('encoded') as string | null
   const clearFirst = formData.get('clear_first') === 'true'
   if (!encoded) return { success: false, error: 'データが見つかりません。再度アップロードしてください。' }
