@@ -77,3 +77,11 @@ create policy "auth read own inquiries"
   on inquiries for select
   to authenticated
   using (auth.uid() = user_id);
+
+-- ============================================================
+-- Migration: pickup (featured) jobs for the registration page slider
+-- Driven by a "ピックアップ" column in the kintone CSV. Run this BEFORE the
+-- next CSV import — the importer writes this column on every insert.
+-- ============================================================
+alter table jobs add column if not exists is_pickup boolean not null default false;
+create index if not exists jobs_pickup_idx on jobs (is_pickup) where is_pickup;
