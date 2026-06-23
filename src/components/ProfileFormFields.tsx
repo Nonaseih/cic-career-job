@@ -104,14 +104,14 @@ export function CheckboxGroupWithOther({
     <Field label={label} required={required}>
       <div className={`grid grid-cols-1 ${columns === 2 ? 'sm:grid-cols-2' : ''} gap-2 mt-1`}>
         {options.map((o) => (
-          <label key={o} className="flex items-center gap-2 text-sm cursor-pointer">
+          <label key={o} className="flex items-center gap-2.5 text-base cursor-pointer">
             <input
               type="checkbox"
               name={name}
               value={o}
               defaultChecked={defaults.includes(o) || (o === OTHER_VALUE && !!customValue)}
               onChange={o === OTHER_VALUE ? (e) => setShowOther(e.target.checked) : undefined}
-              className="accent-[var(--color-red)]"
+              className="w-4 h-4 accent-[var(--color-red)]"
             />
             {o}
           </label>
