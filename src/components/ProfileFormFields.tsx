@@ -25,10 +25,10 @@ export function Field({
 }) {
   return (
     <div>
-      <label className="block text-xs font-bold text-[var(--color-ink)] mb-1">
+      <label className="block text-sm font-bold text-[var(--color-ink)] mb-1.5">
         {label}
         {required && <span className="text-[var(--color-red)] ml-1">*</span>}
-        {hint && <span className="ml-2 text-[10px] font-normal text-[var(--color-subtle)]">{hint}</span>}
+        {hint && <span className="ml-2 text-xs font-normal text-[var(--color-subtle)]">{hint}</span>}
       </label>
       {children}
     </div>
