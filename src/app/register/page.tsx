@@ -10,12 +10,25 @@ export const metadata: Metadata = { title: '無料会員登録' }
 
 export default async function RegisterPage() {
   const supabase = await createClient()
-  const { data: pickupJobs } = await supabase
+
+  // Prefer jobs flagged as "pickup" in kintone; fall back to the newest
+  // published jobs when none are flagged (or before the column is populated).
+  let { data: pickupJobs } = await supabase
     .from('jobs')
     .select('*')
     .eq('is_published', true)
+    .eq('is_pickup', true)
     .order('created_at', { ascending: false })
     .limit(12)
+
+  if (!pickupJobs || pickupJobs.length === 0) {
+    ;({ data: pickupJobs } = await supabase
+      .from('jobs')
+      .select('*')
+      .eq('is_published', true)
+      .order('created_at', { ascending: false })
+      .limit(12))
+  }
 
   return (
     <div className="bg-[var(--color-bg)]">
