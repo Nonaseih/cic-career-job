@@ -70,6 +70,10 @@ export async function parseCSV(
   _prev: ParseResult | null,
   formData: FormData
 ): Promise<ParseResult> {
+  if (!(await assertAdmin())) {
+    return { success: false, error: '認証が必要です。再度ログインしてください。' }
+  }
+
   const file = formData.get('file') as File | null
   if (!file || file.size === 0) {
     return { success: false, error: 'CSVファイルを選択してください。' }
