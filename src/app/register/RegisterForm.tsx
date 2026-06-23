@@ -166,11 +166,11 @@ export default function RegisterForm() {
       {/* ── Submit ───────────────────────────────────────────────────── */}
       <div className="pt-2">
         <button type="submit" disabled={pending || mismatch}
-          className="w-full py-4 bg-[var(--color-red)] text-white font-display font-bold rounded-xl text-sm hover:bg-[var(--color-red-dark)] transition-colors disabled:opacity-60">
+          className="w-full py-4 bg-[var(--color-red)] text-white font-display font-bold rounded-xl text-base hover:bg-[var(--color-red-dark)] transition-colors disabled:opacity-60">
           {pending ? '登録中...' : '無料会員登録する'}
         </button>
 
-        <p className="mt-4 text-center text-xs text-[var(--color-subtle)] leading-relaxed">
+        <p className="mt-4 text-center text-sm text-[var(--color-subtle)] leading-relaxed">
           登録することで
           <a href="https://www.cic-ct.co.jp/career-job/entry/kiyaku/" target="_blank" rel="noopener noreferrer"
             className="text-[var(--color-red)] hover:underline mx-0.5">利用規約</a>
