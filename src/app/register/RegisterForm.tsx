@@ -179,7 +179,7 @@ export default function RegisterForm() {
           に同意したものとみなします。
         </p>
 
-        <p className="mt-3 text-center text-xs text-[var(--color-muted)]">
+        <p className="mt-3 text-center text-sm text-[var(--color-muted)]">
           すでにアカウントをお持ちの方は{' '}
           <Link href="/login" className="text-[var(--color-red)] hover:underline font-medium">ログイン</Link>
         </p>
