@@ -9,7 +9,7 @@ export const TEXTAREA = `${INPUT} resize-none`
 
 export function SectionHeader({ title }: { title: string }) {
   return (
-    <h2 className="text-xs font-bold text-[var(--color-ink)] bg-[var(--color-bg-warm)] border-l-4 border-[var(--color-red)] px-4 py-2 rounded -mx-6 mb-4">
+    <h2 className="text-sm font-bold text-[var(--color-ink)] bg-[var(--color-bg-warm)] border-l-4 border-[var(--color-red)] px-4 py-2.5 rounded -mx-6 mb-4">
       {title}
     </h2>
   )
