@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import HeaderWrapper from './HeaderWrapper'
+import MobileNav from './MobileNav'
 
 export default async function Header() {
   const supabase = await createClient()
@@ -9,7 +10,7 @@ export default async function Header() {
 
   return (
     <HeaderWrapper>
-      <div className="max-w-7xl mx-auto px-8 h-[68px] flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-[68px] flex items-center justify-between gap-3">
 
         {/* Brand — white logo on hero, red logo on scroll */}
         <Link href="/" className="flex items-center shrink-0">
