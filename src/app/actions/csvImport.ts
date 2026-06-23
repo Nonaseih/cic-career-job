@@ -2,7 +2,16 @@
 
 import iconv from 'iconv-lite'
 import Papa from 'papaparse'
+import { headers } from 'next/headers'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { isValidAdminAuth } from '@/lib/adminAuth'
+
+// Defense in depth: the proxy gates the /admin page, but Server Actions are
+// POSTed directly and must verify the same Basic Auth credential themselves.
+async function assertAdmin(): Promise<boolean> {
+  const h = await headers()
+  return isValidAdminAuth(h.get('authorization'))
+}
 
 const UNPUBLISHED_STATUSES = ['終了', '充足']
 
