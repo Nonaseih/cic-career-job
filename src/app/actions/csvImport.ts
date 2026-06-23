@@ -15,6 +15,21 @@ async function assertAdmin(): Promise<boolean> {
 
 const UNPUBLISHED_STATUSES = ['終了', '充足']
 
+// kintone column(s) that flag a job as a "pickup" (featured) listing on the
+// registration page slider. A cell counts as featured unless it's blank or an
+// explicit negative value — so a checkbox, "1", "○", "はい" etc. all work.
+const PICKUP_COLUMNS = ['ピックアップ', 'おすすめ']
+const PICKUP_FALSEY = new Set(['', '0', 'いいえ', 'false', 'no', 'off', '×', 'ー', '-', 'なし'])
+
+function isPickup(row: Record<string, string>): boolean {
+  for (const col of PICKUP_COLUMNS) {
+    if (col in row) {
+      return !PICKUP_FALSEY.has((row[col] ?? '').trim().toLowerCase())
+    }
+  }
+  return false
+}
+
 type ParsedJob = {
   title: string
   company_name: string
@@ -26,6 +41,7 @@ type ParsedJob = {
   areas: string[]
   tags: string[]
   is_published: boolean
+  is_pickup: boolean
 }
 
 type ParseResult =
