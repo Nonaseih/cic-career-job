@@ -44,7 +44,7 @@ export default function RegisterForm() {
             value={confirm} onChange={(e) => setConfirm(e.target.value)}
             className={`${INPUT} ${mismatch ? 'border-[var(--color-red)]' : ''}`}
             placeholder="パスワードを再入力" />
-          {mismatch && <p className="mt-1 text-xs text-[var(--color-red)]">パスワードが一致しません</p>}
+          {mismatch && <p className="mt-1 text-sm text-[var(--color-red)]">パスワードが一致しません</p>}
         </Field>
       </div>
 
