@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { OTHER_VALUE } from '@/lib/profileOptions'
 
-export const INPUT = 'w-full border border-[var(--color-line)] rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-[var(--color-red)] transition-colors'
+export const INPUT = 'w-full border border-[var(--color-line)] rounded-lg px-3.5 py-3 text-base bg-white focus:outline-none focus:border-[var(--color-red)] transition-colors'
 export const SELECT = INPUT
 export const TEXTAREA = `${INPUT} resize-none`
 
