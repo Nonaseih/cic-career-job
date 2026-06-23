@@ -79,6 +79,7 @@ function parseRow(row: Record<string, string>): ParsedJob | null {
     areas,
     tags: jobType ? [jobType] : [],
     is_published: !UNPUBLISHED_STATUSES.includes(status),
+    is_pickup: isPickup(row),
   }
 }
 
