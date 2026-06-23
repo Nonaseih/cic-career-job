@@ -45,11 +45,10 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect job detail pages, mypage, and admin
+  // Protect job detail pages and mypage (admin is handled above).
   const isProtected =
     request.nextUrl.pathname.startsWith('/jobs/') ||
-    request.nextUrl.pathname.startsWith('/mypage') ||
-    request.nextUrl.pathname.startsWith('/admin')
+    request.nextUrl.pathname.startsWith('/mypage')
 
   if (isProtected && !user) {
     const loginUrl = request.nextUrl.clone()
