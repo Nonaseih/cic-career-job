@@ -1,7 +1,23 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { isValidAdminAuth, ADMIN_REALM } from '@/lib/adminAuth'
 
 export async function proxy(request: NextRequest) {
+  // Admin CSV-import area: gate behind a shared HTTP Basic Auth credential.
+  // This is independent of the Supabase member session — CAs are staff who may
+  // not have member accounts, and members must not reach the import tools.
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    if (!isValidAdminAuth(request.headers.get('authorization'))) {
+      return new NextResponse('Authentication required', {
+        status: 401,
+        headers: {
+          'WWW-Authenticate': `Basic realm="${ADMIN_REALM}", charset="UTF-8"`,
+        },
+      })
+    }
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
