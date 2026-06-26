@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser, getNewestJobs } from '@/lib/supabase/queries'
 import JobCard from '@/components/JobCard'
 import HeroSearch from '@/components/HeroSearch'
 import { FadeUp, FadeInView, StaggerList, StaggerItem } from '@/components/Animate'
