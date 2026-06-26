@@ -34,7 +34,7 @@ export default function InquiryModal({
         onClick={() => setOpen(true)}
         className="w-full py-3.5 bg-[var(--color-cic-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors"
       >
-        詳細を聞きたい・応募する
+        詳細を聞く
       </button>
 
       <dialog
@@ -66,7 +66,7 @@ export default function InquiryModal({
             <>
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h2 className="font-bold text-[var(--color-cic-brown)] text-base">詳細を聞きたい</h2>
+                  <h2 className="font-bold text-[var(--color-cic-brown)] text-base">この求人の詳細を聞く</h2>
                   <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{jobTitle}</p>
                 </div>
                 <button
@@ -84,67 +84,28 @@ export default function InquiryModal({
                 </p>
               )}
 
-              <form action={action} className="space-y-3">
+              <p className="text-sm text-gray-600 leading-relaxed mb-1">
+                ご登録の会員情報で、担当キャリアアドバイザーへお問い合わせします。
+              </p>
+              <p className="text-xs text-gray-400 mb-5">
+                ご連絡先：{userEmail}
+              </p>
+
+              <form action={action} className="flex items-center gap-3">
                 <input type="hidden" name="job_id" value={jobId} />
-
-                <div>
-                  <label className="block text-xs font-bold text-[var(--color-cic-brown)] mb-1">
-                    お名前 <span className="text-[var(--color-cic-red)]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full border border-[var(--color-cic-border)] rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-cic-red)]"
-                    placeholder="山田 太郎"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[var(--color-cic-brown)] mb-1">
-                    メールアドレス <span className="text-[var(--color-cic-red)]">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    defaultValue={userEmail}
-                    className="w-full border border-[var(--color-cic-border)] rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-cic-red)]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[var(--color-cic-brown)] mb-1">
-                    電話番号
-                    <span className="ml-1 font-normal text-gray-400">（任意）</span>
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    className="w-full border border-[var(--color-cic-border)] rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-cic-red)]"
-                    placeholder="090-0000-0000"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[var(--color-cic-brown)] mb-1">
-                    メッセージ <span className="text-[var(--color-cic-red)]">*</span>
-                  </label>
-                  <textarea
-                    name="message"
-                    required
-                    rows={3}
-                    className="w-full border border-[var(--color-cic-border)] rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-cic-red)] resize-none"
-                    placeholder="気になる点・ご質問などをご記入ください"
-                  />
-                </div>
-
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="flex-1 py-3 border border-[var(--color-cic-border)] rounded text-sm font-medium text-[var(--color-cic-brown)] hover:bg-gray-50 transition-colors"
+                >
+                  キャンセル
+                </button>
                 <button
                   type="submit"
                   disabled={pending}
-                  className="w-full py-3 bg-[var(--color-cic-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors disabled:opacity-60"
+                  className="flex-1 py-3 bg-[var(--color-cic-red)] text-white font-bold rounded text-sm hover:bg-[var(--color-cic-red-dark)] transition-colors disabled:opacity-60"
                 >
-                  {pending ? '送信中...' : '送信する'}
+                  {pending ? '送信中...' : '詳細を聞く'}
                 </button>
               </form>
             </>
