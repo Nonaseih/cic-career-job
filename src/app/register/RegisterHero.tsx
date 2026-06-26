@@ -9,15 +9,15 @@
 export default function RegisterHero() {
   return (
     <section className="relative overflow-hidden bg-white border-b border-[var(--color-line)]">
-      <div className="relative max-w-6xl mx-auto h-40 sm:h-48 md:h-56">
-        {/* Photo — worker anchored to the right */}
+      <div className="relative max-w-6xl mx-auto h-44 sm:h-52 md:h-60">
+        {/* Photo — worker anchored to the right (face + raised fist in frame) */}
         <img
           src="/register-hero.jpg"
           alt="建設業専門のキャリアアドバイザーが徹底サポート"
-          className="absolute inset-0 w-full h-full object-cover object-[88%_18%]"
+          className="absolute inset-0 w-full h-full object-cover object-[82%_20%]"
         />
         {/* Legibility scrim so the headline reads over the photo */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" />
 
         {/* Headline */}
         <div className="relative h-full flex items-center px-6 sm:px-10">
