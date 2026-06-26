@@ -22,10 +22,12 @@ export default async function RegisterPage() {
     .limit(12)
 
   if (!pickupJobs || pickupJobs.length === 0) {
+    // No flagged jobs yet — show recent salaried jobs so 年収 stays prominent.
     ;({ data: pickupJobs } = await supabase
       .from('jobs')
       .select('*')
       .eq('is_published', true)
+      .not('salary_min', 'is', null)
       .order('created_at', { ascending: false })
       .limit(12))
   }
