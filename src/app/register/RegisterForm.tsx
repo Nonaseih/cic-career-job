@@ -48,37 +48,9 @@ export default function RegisterForm() {
         </Field>
       </div>
 
-      {/* ── Basic info ───────────────────────────────────────────────── */}
-      <div className="space-y-4">
-        <SectionHeader title="基本情報" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Field label="氏名" required>
-            <input type="text" name="full_name" required placeholder="山田 太郎" className={INPUT} />
-          </Field>
-          <Field label="電話番号" required>
-            <input type="tel" name="phone" required placeholder="090-0000-0000" className={INPUT} />
-          </Field>
-          <Field label="生年" required>
-            <select name="birth_year" required defaultValue="" className={SELECT}>
-              <option value="">選択してください</option>
-              {BIRTH_YEARS.map(y => <option key={y} value={y}>{y}年</option>)}
-            </select>
-          </Field>
-          <Field label="都道府県" required>
-            <select name="prefecture" required defaultValue="" className={SELECT}>
-              <option value="">選択してください</option>
-              {PREFECTURES.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-          </Field>
-        </div>
-        <Field label="市区町村" required>
-          <input type="text" name="city" required placeholder="例：大阪市北区" className={INPUT} />
-        </Field>
-      </div>
-
-      {/* ── Qualifications ───────────────────────────────────────────── */}
+      {/* ── Qualifications / skills ──────────────────────────────────── */}
       <div className="space-y-3">
-        <SectionHeader title="保有資格" />
+        <SectionHeader title="資格・スキル" />
         <CheckboxGroupWithOther
           name="qualifications"
           label="保有資格"
