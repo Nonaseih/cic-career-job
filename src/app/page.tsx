@@ -90,10 +90,12 @@ export default async function TopPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [{ data: jobs }, { count }] = await Promise.all([
-    supabase.from('jobs').select('*').eq('is_published', true).order('created_at', { ascending: false }).limit(6),
-    supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('is_published', true),
-  ])
+  const { data: jobs } = await supabase
+    .from('jobs')
+    .select('*')
+    .eq('is_published', true)
+    .order('created_at', { ascending: false })
+    .limit(6)
 
   return (
     <div className="bg-[var(--color-bg)]">
