@@ -15,17 +15,21 @@ export async function submitInquiry(
   if (!user) return { success: false, error: 'ログインが必要です。' }
 
   const jobId = formData.get('job_id')
-  const name = (formData.get('name') as string).trim()
-  const email = (formData.get('email') as string).trim()
-  const phone = (formData.get('phone') as string | null)?.trim() || null
-  const message = (formData.get('message') as string).trim()
+  const jobIdNum = jobId ? Number(jobId) : null
 
-  if (!name || !email || !message) {
-    return { success: false, error: '必須項目を入力してください。' }
-  }
+  // Logged-in members don't re-enter their details — pull them from the profile.
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('full_name, phone')
+    .eq('id', user.id)
+    .single()
+
+  const name = profile?.full_name?.trim() || user.email || '会員'
+  const email = user.email ?? ''
+  const phone = profile?.phone?.trim() || null
+  const message = '求人詳細について詳しく聞きたい（会員からの詳細希望）'
 
   // Fetch job details for the notification email
-  const jobIdNum = jobId ? Number(jobId) : null
   let jobTitle: string | null = null
   let companyName: string | null = null
   if (jobIdNum) {
