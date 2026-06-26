@@ -136,23 +136,6 @@ export default async function TopPage() {
                 </p>
               </FadeUp>
 
-              {/* Trust stats */}
-              <FadeUp delay={0.28}>
-                <div className="flex items-center gap-8 flex-wrap">
-                  {[
-                    { value: count?.toLocaleString() ?? '0', unit: '件', label: '掲載求人数' },
-                    { value: '98', unit: '%', label: 'サポート満足度' },
-                    { value: '0', unit: '円', label: '完全無料' },
-                  ].map((s) => (
-                    <div key={s.label}>
-                      <p className="font-latin font-black text-3xl text-white leading-none">
-                        {s.value}<span className="text-base font-normal text-white/50 ml-1">{s.unit}</span>
-                      </p>
-                      <p className="text-xs text-white/40 mt-1">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </FadeUp>
             </div>
 
             {/* Right: Search form — no container, sits bare on the dark bg */}
