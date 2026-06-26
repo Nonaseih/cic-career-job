@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser } from '@/lib/supabase/queries'
 import HeaderWrapper from './HeaderWrapper'
 import MobileNav from './MobileNav'
 
 export default async function Header() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   return (
     <HeaderWrapper>
