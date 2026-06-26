@@ -167,7 +167,7 @@ export default function RegisterForm() {
       <div className="pt-2">
         <button type="submit" disabled={pending || mismatch}
           className="w-full py-4 bg-[var(--color-red)] text-white font-display font-bold rounded-xl text-base hover:bg-[var(--color-red-dark)] transition-colors disabled:opacity-60">
-          {pending ? '登録中...' : '無料会員登録する'}
+          {pending ? '登録中...' : '限定・非公開求人を確認する'}
         </button>
 
         <p className="mt-4 text-center text-sm text-[var(--color-subtle)] leading-relaxed">
