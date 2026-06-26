@@ -87,15 +87,10 @@ const CATEGORIES = [
 ]
 
 export default async function TopPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  const { data: jobs } = await supabase
-    .from('jobs')
-    .select('*')
-    .eq('is_published', true)
-    .order('created_at', { ascending: false })
-    .limit(6)
+  const [user, jobs] = await Promise.all([
+    getCurrentUser(),
+    getNewestJobs(6),
+  ])
 
   return (
     <div className="bg-[var(--color-bg)]">
