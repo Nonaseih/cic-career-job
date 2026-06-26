@@ -35,17 +35,11 @@ export default async function RegisterPage() {
       <RegisterHero />
 
       {pickupJobs && pickupJobs.length > 0 && (
-        <div className="max-w-5xl mx-auto px-6 sm:px-10 pt-10">
-          <PickupSlider jobs={pickupJobs as Job[]} />
-        </div>
+        <PickupSlider jobs={pickupJobs as Job[]} />
       )}
 
-      <div className="px-6 py-10 sm:py-12">
+      <div className="px-6 py-6 sm:py-8">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="font-display font-black text-2xl sm:text-3xl text-[var(--color-ink)]">無料会員登録</h2>
-            <p className="text-sm sm:text-base text-[var(--color-muted)] mt-2">登録無料・完全無料でご利用いただけます</p>
-          </div>
           <div className="bg-white border border-[var(--color-line)] rounded-2xl p-6 sm:p-8 shadow-sm">
             <RegisterForm />
           </div>
