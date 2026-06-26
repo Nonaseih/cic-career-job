@@ -37,7 +37,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   const to   = from + PAGE_SIZE - 1
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   let query = supabase
     .from('jobs')
