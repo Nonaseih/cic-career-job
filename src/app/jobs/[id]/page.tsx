@@ -154,7 +154,7 @@ export default async function JobDetailPage({ params }: Props) {
               <div className="bg-white border border-[var(--color-line)] rounded-xl p-5 sticky top-24">
                 <p className="text-xs font-bold text-[var(--color-ink)] mb-1">キャリアアドバイザーに相談</p>
                 <p className="text-xs text-[var(--color-muted)] mb-4 leading-relaxed">
-                  求人の詳細・応募についてCAに直接お聞きいただけます。
+                  求人の詳細についてCAに直接お聞きいただけます。
                 </p>
                 <InquiryModal jobId={j.id} jobTitle={j.title} userEmail={user?.email ?? ''} />
                 <p className="mt-3 text-xs text-center text-[var(--color-subtle)]">無料・秘密厳守</p>
