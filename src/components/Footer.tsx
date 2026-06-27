@@ -30,7 +30,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/25">
-          <p>© {new Date().getFullYear()} 株式会社日本建設情報センター. All rights reserved.</p>
+          <p suppressHydrationWarning>© {new Date().getFullYear()} 株式会社日本建設情報センター. All rights reserved.</p>
           <a href="https://www.cic-ct.co.jp/" target="_blank" rel="noopener noreferrer"
             className="hover:text-white/50 transition-colors">cic-ct.co.jp ↗</a>
         </div>
