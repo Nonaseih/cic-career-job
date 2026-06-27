@@ -30,13 +30,13 @@ export default function RegisterHero() {
           </h1>
 
           {/* Worker cutout — transparent, stands at the bottom close to the text */}
-          <div className="absolute inset-y-0 right-0 w-[58%] sm:w-[52%] md:w-[48%]">
+          <div className="absolute inset-y-0 right-0 w-[66%] sm:w-[60%] md:w-[58%]">
             <Image
               src="/t-hero.png"
               alt="建設業専門のキャリアアドバイザー"
               fill
               priority
-              sizes="(max-width: 768px) 58vw, 620px"
+              sizes="(max-width: 768px) 66vw, 760px"
               className="object-contain object-bottom"
             />
           </div>
