@@ -61,7 +61,7 @@
   /* ── Fonts ── */
   --font-sans:    var(--font-noto), "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
   --font-display: var(--font-zen), "Noto Sans JP", sans-serif;
-  --font-serif:   var(--font-mincho), serif;
+  --font-serif:   serif;
   --font-latin:   var(--font-archivo), "Noto Sans JP", sans-serif;
 }
 
