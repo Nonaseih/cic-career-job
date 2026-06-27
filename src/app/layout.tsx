@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
-import { Noto_Sans_JP, Zen_Kaku_Gothic_New, Shippori_Mincho_B1, Archivo } from 'next/font/google'
+import { Noto_Sans_JP, Zen_Kaku_Gothic_New, Archivo } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 const noto    = Noto_Sans_JP({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-noto', display: 'swap' })
 const zen     = Zen_Kaku_Gothic_New({ subsets: ['latin'], weight: ['500', '700', '900'], variable: '--font-zen', display: 'swap' })
-const mincho  = Shippori_Mincho_B1({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-mincho', display: 'swap' })
 const archivo = Archivo({ subsets: ['latin'], weight: ['600', '700', '800'], variable: '--font-archivo', display: 'swap' })
 
 export const metadata: Metadata = {
