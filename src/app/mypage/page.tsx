@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser } from '@/lib/supabase/queries'
 import { logout } from '@/app/actions/auth'
 import { FadeUp, FadeInView, StaggerList, StaggerItem, HoverCard } from '@/components/Animate'
 
