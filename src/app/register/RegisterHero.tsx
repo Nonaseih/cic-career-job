@@ -21,9 +21,9 @@ export default function RegisterHero() {
       <div className="absolute inset-0 bg-white/75" />
 
       <div className="relative max-w-6xl mx-auto px-6 sm:px-10">
-        <div className="relative h-72 sm:h-80 md:h-96 flex items-center">
+        <div className="relative h-80 sm:h-96 md:h-[28rem] flex items-center">
           {/* Headline */}
-          <h1 className="relative z-10 font-display font-black leading-[1.22] text-[clamp(1.6rem,4.8vw,2.9rem)] text-[var(--color-ink)]">
+          <h1 className="relative z-10 font-display font-black leading-[1.2] text-[clamp(1.9rem,5.6vw,3.6rem)] text-[var(--color-ink)]">
             <span className="text-[var(--color-red)]">建設業専門</span>の<br />
             キャリアアドバイザーが<br />
             徹底サポート！
