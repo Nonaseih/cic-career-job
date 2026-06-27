@@ -9,15 +9,16 @@
 export default function RegisterHero() {
   return (
     <section className="relative overflow-hidden bg-white border-b border-[var(--color-line)]">
-      <div className="relative h-64 sm:h-72 md:h-80">
-        {/* Full-bleed photo, faded on the left so it merges into the headline area */}
+      <div className="relative h-72 sm:h-80 md:h-96">
+        {/* Whole worker (zoomed out) pinned to the right; left edge faded so the
+            sharp cut dissolves into the headline area. */}
         <img
           src="/register-hero.jpg"
           alt="建設業専門のキャリアアドバイザーが徹底サポート"
-          className="absolute inset-0 w-full h-full object-cover object-[78%_22%]"
+          className="absolute right-0 top-0 h-full w-auto"
           style={{
-            WebkitMaskImage: 'linear-gradient(to right, transparent 6%, #000 46%)',
-            maskImage: 'linear-gradient(to right, transparent 6%, #000 46%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, #000 28%)',
+            maskImage: 'linear-gradient(to right, transparent, #000 28%)',
           }}
         />
 
