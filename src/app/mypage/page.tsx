@@ -164,7 +164,7 @@ export default async function MyPage({ searchParams }: { searchParams: Promise<{
                                 {job && <p className="text-xs text-[var(--color-muted)] mt-0.5">{job.company_name}</p>}
                               </div>
                               <span className="shrink-0 text-xs text-[var(--color-subtle)] whitespace-nowrap">
-                                {new Date(inq.created_at).toLocaleDateString('ja-JP')}
+                                {new Date(inq.created_at).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' })}
                               </span>
                             </div>
                             <p className="mt-2 text-xs text-[var(--color-muted)] line-clamp-2 leading-relaxed">{inq.message}</p>
