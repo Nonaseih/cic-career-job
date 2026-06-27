@@ -37,9 +37,9 @@ export default async function JobDetailPage({ params }: Props) {
   const { id } = await params
   const supabase = await createClient()
 
-  const [{ data: job }, { data: { user } }] = await Promise.all([
+  const [{ data: job }, user] = await Promise.all([
     supabase.from('jobs').select('*').eq('id', id).single(),
-    supabase.auth.getUser(),
+    getCurrentUser(),
   ])
 
   if (!job) notFound()
