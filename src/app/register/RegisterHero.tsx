@@ -29,14 +29,16 @@ export default function RegisterHero() {
             徹底サポート！
           </h1>
 
-          {/* Worker cutout — transparent, stands at the bottom close to the text */}
-          <div className="absolute inset-y-0 right-0 w-[66%] sm:w-[60%] md:w-[58%]">
+          {/* Worker cutout — transparent. Oversized + bottom-anchored so he
+              reads larger; the section's overflow-hidden clips the empty top
+              margin baked into the PNG. */}
+          <div className="absolute bottom-0 right-0 h-[124%] w-[82%] sm:w-[74%] md:w-[70%]">
             <Image
               src="/t-hero.png"
               alt="建設業専門のキャリアアドバイザー"
               fill
               priority
-              sizes="(max-width: 768px) 66vw, 760px"
+              sizes="(max-width: 768px) 82vw, 860px"
               className="object-contain object-bottom"
             />
           </div>
