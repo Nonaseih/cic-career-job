@@ -4,6 +4,10 @@ import { createClient as createSupabaseJsClient } from '@supabase/supabase-js'
 import { createClient } from './server'
 import type { Job } from '@/lib/types'
 
+// Only the columns the list/marquee views actually render — skips the heavy
+// `description` and `experience` text blobs that card views never show.
+export const LIST_COLUMNS = 'id, title, company_name, employment_type, areas, tags, salary_min, salary_max'
+
 /**
  * The current authenticated user, deduped within a single server render via
  * React `cache()`. The Header and the page both need it, but only one Supabase
