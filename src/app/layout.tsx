@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`h-full ${noto.variable} ${zen.variable} ${mincho.variable} ${archivo.variable}`}>
+    <html lang="ja" className={`h-full ${noto.variable} ${zen.variable} ${archivo.variable}`}>
       <body className="min-h-full flex flex-col bg-[var(--color-background)]">
         <Header />
         {/* pt-[68px] offsets the fixed header for inner pages; the hero overrides with -mt-[68px] */}
