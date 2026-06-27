@@ -38,7 +38,7 @@ export const getNewestJobs = unstable_cache(
     const sb = publicClient()
     const { data } = await sb
       .from('jobs')
-      .select('*')
+      .select(LIST_COLUMNS)
       .eq('is_published', true)
       .order('created_at', { ascending: false })
       .limit(limit)
@@ -57,7 +57,7 @@ export const getPickupJobs = unstable_cache(
     const sb = publicClient()
     const flagged = await sb
       .from('jobs')
-      .select('*')
+      .select(LIST_COLUMNS)
       .eq('is_published', true)
       .eq('is_pickup', true)
       .order('created_at', { ascending: false })
@@ -66,7 +66,7 @@ export const getPickupJobs = unstable_cache(
 
     const salaried = await sb
       .from('jobs')
-      .select('*')
+      .select(LIST_COLUMNS)
       .eq('is_published', true)
       .not('salary_min', 'is', null)
       .order('created_at', { ascending: false })
