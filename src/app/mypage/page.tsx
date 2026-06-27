@@ -125,7 +125,7 @@ export default async function MyPage({ searchParams }: { searchParams: Promise<{
               )}
 
               <p className="mt-4 text-xs text-[var(--color-subtle)]">
-                登録日: {user?.created_at ? new Date(user.created_at).toLocaleDateString('ja-JP') : '—'}
+                登録日: {user?.created_at ? new Date(user.created_at).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' }) : '—'}
               </p>
             </div>
           </FadeUp>
