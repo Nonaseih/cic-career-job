@@ -72,7 +72,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
           {count != null && (
             <FadeInView>
               <p className="text-sm text-[var(--color-muted)] mb-5">
-                <span className="font-latin font-extrabold text-xl text-[var(--color-ink)]">{count.toLocaleString()}</span>
+                <span className="font-latin font-extrabold text-xl text-[var(--color-ink)]">{count.toLocaleString('ja-JP')}</span>
                 <span className="ml-1">件の求人</span>
                 {(keyword || area || region || category) && <span className="text-[var(--color-red)] ml-1">（絞り込み中）</span>}
               </p>
