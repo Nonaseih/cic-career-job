@@ -157,7 +157,7 @@ export async function importJobs(
     }
 
     // Bust the cached job lists (home / register marquee) so the new data shows.
-    revalidateTag('jobs')
+    revalidateTag('jobs', 'max')
 
     return { success: true, inserted, skipped }
   } catch {
