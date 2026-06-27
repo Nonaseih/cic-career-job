@@ -42,7 +42,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
 
   let query = supabase
     .from('jobs')
-    .select('*', { count: 'exact' })
+    .select(LIST_COLUMNS, { count: 'exact' })
     .eq('is_published', true)
     .order('created_at', { ascending: false })
     .range(from, to)
