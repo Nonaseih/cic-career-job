@@ -32,7 +32,7 @@ export default function RegisterHero() {
           {/* Worker cutout — transparent. Oversized + bottom-anchored so he
               reads larger; the section's overflow-hidden clips the empty top
               margin baked into the PNG. */}
-          <div className="absolute bottom-0 right-0 sm:right-[5%] md:right-[9%] h-[110%] w-[74%] sm:w-[66%] md:w-[62%]">
+          <div className="absolute bottom-0 right-0 sm:right-[5%] md:right-[9%] h-[110%] w-[74%] sm:w-[66%] md:w-[62%] translate-y-[40%]">
             <Image
               src="/t-hero.png"
               alt="建設業専門のキャリアアドバイザー"
