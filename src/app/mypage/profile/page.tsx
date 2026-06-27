@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser } from '@/lib/supabase/queries'
 import ProfileForm from './ProfileForm'
 
 export const metadata: Metadata = { title: 'プロフィール編集' }
 
 export default async function ProfilePage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   const { data: profile } = await supabase
     .from('profiles')
