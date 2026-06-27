@@ -156,6 +156,9 @@ export async function importJobs(
       }
     }
 
+    // Bust the cached job lists (home / register marquee) so the new data shows.
+    revalidateTag('jobs')
+
     return { success: true, inserted, skipped }
   } catch {
     return { success: false, error: 'インポートに失敗しました。' }
