@@ -11,8 +11,8 @@ export default async function MyPage({ searchParams }: { searchParams: Promise<{
   const { profile: profileSaved } = await searchParams
   const supabase = await createClient()
 
-  const [{ data: { user } }, { data: inquiries }, { data: profile }] = await Promise.all([
-    supabase.auth.getUser(),
+  const [user, { data: inquiries }, { data: profile }] = await Promise.all([
+    getCurrentUser(),
     supabase.from('inquiries').select('id, created_at, message, job_id, jobs(id, title, company_name)').order('created_at', { ascending: false }),
     supabase.from('profiles').select('full_name, desired_job_type, desired_prefecture, qualifications').single(),
   ])
