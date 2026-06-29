@@ -26,28 +26,6 @@ export default function RegisterForm() {
         <p className="text-sm text-[var(--color-red)] bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>
       )}
 
-      {/* ── Account info ─────────────────────────────────────────────── */}
-      <div className="space-y-4">
-        <SectionHeader title="アカウント情報" />
-
-        <Field label="メールアドレス" required>
-          <input type="email" name="email" required autoComplete="email" className={INPUT} placeholder="example@email.com" />
-        </Field>
-
-        <Field label="パスワード（6文字以上）" required>
-          <input type="password" name="password" required minLength={6} autoComplete="new-password"
-            value={password} onChange={(e) => setPassword(e.target.value)} className={INPUT} placeholder="パスワード" />
-        </Field>
-
-        <Field label="パスワード（確認）" required>
-          <input type="password" required autoComplete="new-password"
-            value={confirm} onChange={(e) => setConfirm(e.target.value)}
-            className={`${INPUT} ${mismatch ? 'border-[var(--color-red)]' : ''}`}
-            placeholder="パスワードを再入力" />
-          {mismatch && <p className="mt-1 text-sm text-[var(--color-red)]">パスワードが一致しません</p>}
-        </Field>
-      </div>
-
       {/* ── Qualifications / skills ──────────────────────────────────── */}
       <div className="space-y-3">
         <SectionHeader title="資格・スキル" />
@@ -160,6 +138,28 @@ export default function RegisterForm() {
         </div>
         <Field label="市区町村" required>
           <input type="text" name="city" required placeholder="例：大阪市北区" className={INPUT} />
+        </Field>
+      </div>
+
+      {/* ── Account info (last — highest psychological hurdle) ────────── */}
+      <div className="space-y-4">
+        <SectionHeader title="アカウント情報" />
+
+        <Field label="メールアドレス" required>
+          <input type="email" name="email" required autoComplete="email" className={INPUT} placeholder="example@email.com" />
+        </Field>
+
+        <Field label="パスワード（6文字以上）" required>
+          <input type="password" name="password" required minLength={6} autoComplete="new-password"
+            value={password} onChange={(e) => setPassword(e.target.value)} className={INPUT} placeholder="パスワード" />
+        </Field>
+
+        <Field label="パスワード（確認）" required>
+          <input type="password" required autoComplete="new-password"
+            value={confirm} onChange={(e) => setConfirm(e.target.value)}
+            className={`${INPUT} ${mismatch ? 'border-[var(--color-red)]' : ''}`}
+            placeholder="パスワードを再入力" />
+          {mismatch && <p className="mt-1 text-sm text-[var(--color-red)]">パスワードが一致しません</p>}
         </Field>
       </div>
 
